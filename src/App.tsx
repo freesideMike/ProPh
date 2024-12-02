@@ -8,8 +8,6 @@ function App() {
 
   return (
     <>
-      <h1>ProPh</h1>
-      <p>- where Photos meet new people -</p>
       <RouterProvider router={router}></RouterProvider>
     </>
   );
