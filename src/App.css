@@ -1,7 +1,21 @@
 #root {
-  min-width: 100vw;
+  width: 100vw;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 /* 
 .logo {
   height: 6em;

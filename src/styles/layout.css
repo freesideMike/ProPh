@@ -3,16 +3,31 @@ header {
   top: 0;
   display: flex;
   flex-direction: row;
+  box-shadow: ;
+}
+
+main {
+  margin-top: 50px;
+  position: relative;
+  background-color: black;
+  color: white;
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100vw;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid black;
-  background-color: lightgrey;
+  color: #dddddd;
+  background-color: #551155;
+  text-align: center;
+  font-family: monospace;
+}
+p {
+  margin: 0;
+  padding: 0;
 }
 
 ul {
@@ -22,10 +37,70 @@ ul {
   padding: 0;
   margin: 0;
 }
+
 li {
   margin-right: 15px;
   padding: 0px 6px;
   border-radius: 8px;
   border: 1px solid black;
   list-style-type: none;
+}
+
+.logo {
+  height: 40px;
+  width: 40px;
+  border: 1px solid black;
+}
+.photosContainer {
+  position: absolute;
+  top: 48px;
+
+}
+
+.photo {
+  width: 40vw;
+  height: 40vw;
+  object-fit: cover;
+  margin: 2px 5px;
+}
+
+.photo1 {
+  transform: rotate(0.5deg);
+}
+
+
+.photo2 {
+  transform: rotate(-1deg);
+}
+
+
+.photo3 {
+  transform: rotate(-0.75deg);
+}
+
+
+.photo4 {
+  transform: rotate(0.7deg);
+}
+
+
+.photo5 {
+  transform: rotate(0deg);
+}
+
+
+.photo6 {
+  transform: rotate(-0.9deg);
+}
+
+.onePhotoContainer {
+  height: 70vh;
+  justify-content: center;
+  align-self: center;
+  border: 3px red solid;
+}
+.onePhoto {
+  max-width: 86vw;
+  max-height: 80vh;
+
 }

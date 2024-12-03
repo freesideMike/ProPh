@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./Router";
 
 function App() {
-  const [user, setUser] = useState([]);
+  const [product, setProduct] = useState([]);
 
   return (
     <>
