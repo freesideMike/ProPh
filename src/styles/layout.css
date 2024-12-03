@@ -6,7 +6,7 @@ header {
   box-shadow: ;
 }
 
-main {
+.displayingOnePhoto {
   margin-top: 50px;
   position: relative;
   background-color: black;
@@ -52,42 +52,41 @@ li {
   border: 1px solid black;
 }
 .photosContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   position: absolute;
   top: 48px;
-
 }
 
 .photo {
-  width: 40vw;
-  height: 40vw;
+  width: 45vw;
+  height: 45vw;
   object-fit: cover;
-  margin: 2px 5px;
+  margin: -2px -2px;
+  border: 0.5px white solid;
 }
 
 .photo1 {
   transform: rotate(0.5deg);
 }
 
-
 .photo2 {
   transform: rotate(-1deg);
 }
-
 
 .photo3 {
   transform: rotate(-0.75deg);
 }
 
-
 .photo4 {
   transform: rotate(0.7deg);
 }
 
-
 .photo5 {
   transform: rotate(0deg);
 }
-
 
 .photo6 {
   transform: rotate(-0.9deg);
@@ -102,5 +101,33 @@ li {
 .onePhoto {
   max-width: 86vw;
   max-height: 80vh;
+}
 
+/* 
+Cart
+ */
+
+.cartItem {
+  display: flex;
+  flex-direction: row;
+  font-size: smaller;
+  height: 60px;
+}
+span {
+  margin: 0;
+  padding: 0;
+}
+.countButton {
+  height: 30px;
+  width: 12px;
+  border-radius: 50%;
+  border: 1px solid #aaaaaa;
+}
+
+.countDisplay {
+  border: 1px solid #aaaaaa;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  text-justify: center;
 }
