@@ -1,15 +1,23 @@
-import babyFeet from "./../img/babyFeet.jpg";
+import { IPhoto } from "../models/IPhoto";
 
-const Home = () => {
+interface IHomeProps {
+  photos: IPhoto[];
+}
+
+const Home: React.FC<IHomeProps> = ({ photos }) => {
   return (
     <>
-      <article className="photosContainer">
-        <img src={babyFeet} alt="Babyfeet in focus" className="photo photo1" />
-        <img src={babyFeet} alt="Babyfeet in focus" className="photo photo2" />
-        <img src={babyFeet} alt="Babyfeet in focus" className="photo photo3" />
-        <img src={babyFeet} alt="Babyfeet in focus" className="photo photo4" />
-        <img src={babyFeet} alt="Babyfeet in focus" className="photo photo5" />
-        <img src={babyFeet} alt="Babyfeet in focus" className="photo photo6" />
+      <article className="flex flex-wrap">
+        {photos.map((photo) => (
+          <section className="lg:w-1/3 sm:w-1/2 p-4">
+            <img
+              key={photo.id}
+              src={photo.url}
+              alt={photo.title}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          </section>
+        ))}
       </article>
     </>
   );

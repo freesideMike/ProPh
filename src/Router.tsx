@@ -6,15 +6,21 @@ import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
 import OnePhoto from "./pages/OnePhoto";
 import Cart from "./pages/Cart";
+import { IPhoto } from "./models/IPhoto";
 
-export const router = createBrowserRouter([
+interface IRouterProps {
+  photos: IPhoto[];
+}
+
+
+const router = (props: IRouterProps) => createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home photos={props.photos} />,
       },
       {
         path: "/onephoto",
@@ -36,3 +42,5 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
 ]);
+
+export default router;

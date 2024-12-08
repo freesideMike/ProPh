@@ -1,13 +1,11 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "./../index.css";
-import "./../styles/layout.css";
-import logoBig from "./../img/logoBig.png";
+import { Header } from "../components/Header";
 
 export const Layout = () => {
   return (
     <>
-      <header className="header">
-        <img src={logoBig} alt="Pro Ph logo" className="logo" />
+     <Header></Header>
         <nav className="navigation header-item right">
           <ul>
             <li>
@@ -21,7 +19,6 @@ export const Layout = () => {
             </li>
           </ul>
         </nav>
-      </header>
       <main>
         <Outlet />
       </main>

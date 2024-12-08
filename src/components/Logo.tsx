@@ -1,8 +1,8 @@
-import "./../styles/logo.css";
+import  logoBig from "./../img/logoBig.png"
 
 const Logo = () => {
   return (
-    <><img src="./bab" alt="" />
+    <><img src={logoBig} alt="ProPh - Pro Photo Logo" />
     </>
   );
 };
