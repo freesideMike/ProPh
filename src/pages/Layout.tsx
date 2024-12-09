@@ -6,8 +6,9 @@ export const Layout = () => {
   return (
     <>
      <Header></Header>
-        <nav className="navigation header-item right">
-          <ul>
+        <nav className="">
+          <hr />
+        <ul className="flex flex-row justify-evenly">
             <li>
               <NavLink to={"/"}>Hem</NavLink>
             </li>
@@ -16,8 +17,9 @@ export const Layout = () => {
             </li>
             <li>
               <NavLink to={"/cart"}>Cart</NavLink>
-            </li>
+          </li>
           </ul>
+          <hr />
         </nav>
       <main>
         <Outlet />
