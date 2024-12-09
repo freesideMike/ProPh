@@ -14,7 +14,7 @@ const Home: React.FC<IHomeProps> = ({ photos }) => {
               key={photo.id}
               src={photo.url}
               alt={photo.title}
-              className="absolute inset-0 w-full h-full object-cover object-center"
+              className="w-1/3 h-1/3 object-cover object-center"
             />
           </section>
         ))}
