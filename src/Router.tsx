@@ -12,35 +12,35 @@ interface IRouterProps {
   photos: IPhoto[];
 }
 
-
-const router = (props: IRouterProps) => createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: <Home photos={props.photos} />,
-      },
-      {
-        path: "/onephoto/:id",
-        element: <OnePhoto photos={props.photos} />,
-      },
-      {
-        path: "/cart",
-        element: <Cart />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/mypage",
-        element: <MyPage />,
-      },
-    ],
-    errorElement: <NotFound />,
-  },
-]);
+const router = (props: IRouterProps) =>
+  createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Home photos={props.photos} />,
+        },
+        {
+          path: "/onephoto/:id",
+          element: <OnePhoto photos={props.photos} />,
+        },
+        {
+          path: "/cart",
+          element: <Cart />,
+        },
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/mypage",
+          element: <MyPage />,
+        },
+      ],
+      errorElement: <NotFound />,
+    },
+  ]);
 
 export default router;

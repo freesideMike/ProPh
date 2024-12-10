@@ -3,6 +3,7 @@ import { IPhoto } from "../models/IPhoto";
 
 interface IPhotoCardProps {
   photo: IPhoto;
+  key: number;
 }
 
 const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {

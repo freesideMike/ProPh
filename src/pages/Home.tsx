@@ -10,7 +10,7 @@ const Home: React.FC<IHomeProps> = ({ photos }) => {
     <>
       <section className="flex flex-wrap">
         {photos.map((photo) => (
-          <PhotoCard photo={photo} />
+          <PhotoCard key={photo.id} photo={photo} />
         ))}
       </section>
     </>
