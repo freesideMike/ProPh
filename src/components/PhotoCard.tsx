@@ -1,23 +1,16 @@
 import { useNavigate } from "react-router-dom";
-/* import { IVersions } from "../models/IVersions"; */
 import { IPhoto } from "../models/IPhoto";
 
 interface IPhotoCardProps {
   photo: IPhoto;
-  /*   id: number;
-  title: string;
-  versions: IVersions;
-  times_opened: number;
-  times_ordered: number;
-  url: string;
-  created_at: number;
-  updated_at: number; */
 }
 
 const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
   const navigate = useNavigate();
 
-  /*   const errorImgSrc = (ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  /*  try to make this notFoundImage in another way or maybe make it not show at all when no image could be found.
+  
+  const errorImgSrc = (ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
     ev.currentTarget.src = "/notFound.png"; */
 
   return (

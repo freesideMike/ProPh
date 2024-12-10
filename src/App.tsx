@@ -34,19 +34,6 @@ function App() {
       
     return (
       <>
-        {/*  {
-          <ul>
-            {photos.map((photo) => (
-              <>
-              {console.log( photos )}
-                <li key={photo.id}>{photo.title}</li>
-                <li key={photo.id}>
-                <img src={photo.url} alt={photo.title} />
-                </li>
-              </>
-            ))}
-          </ul>
-        }  */}
         <RouterProvider router={router({ photos })}></RouterProvider>
       </>
     );
