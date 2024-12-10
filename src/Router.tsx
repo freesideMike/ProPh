@@ -23,8 +23,8 @@ const router = (props: IRouterProps) => createBrowserRouter([
         element: <Home photos={props.photos} />,
       },
       {
-        path: "/onephoto",
-        element: <OnePhoto />,
+        path: "/onephoto/:id",
+        element: <OnePhoto photos={props.photos} />,
       },
       {
         path: "/cart",

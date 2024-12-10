@@ -1,13 +1,26 @@
-import babyFeet from "./../img/babyFeet.jpg";
+import { useParams } from "react-router-dom";
+import { IPhoto } from "../models/IPhoto";
 
-const OnePhoto = () => {
+interface IOnePhotoProps {
+  photos: IPhoto[];
+}
+
+const OnePhoto: React.FC<IOnePhotoProps> = ({ photos }) => {
+
+  const photoId = Number(useParams<{ photoId: string }>());
+
+  const selectedPhoto = photos.find(p => p.id == photoId);
+
+   if (!selectedPhoto) {
+     return <div>Photo not found</div>;
+   }
+
   return (
     <>
       <article className="displayingOnePhoto">
-        <h3>Baby feet</h3>
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
-        <section className="onePhotoContainer">
-          <img src={babyFeet} alt="" className="onePhoto" />
+        <h3>{selectedPhoto.title}</h3>
+        <section >
+          <img key={selectedPhoto.id} src={selectedPhoto.url} alt={selectedPhoto.title} className="onePhoto" />
         </section>
       </article>
     </>

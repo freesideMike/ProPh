@@ -1,14 +1,10 @@
+import { IVersions } from "./IVersions";
+
 // types.ts
 export interface IPhoto {
-  id: number; // or number, depending on your database schema
+  id: number;
   title: string;
-  versions: [
-    {
-      sizeName: string;
-      size: string;
-      price: number;
-    }
-  ];
+  versions: IVersions;
   times_opened: number;
   times_ordered: number;
   url: string;
