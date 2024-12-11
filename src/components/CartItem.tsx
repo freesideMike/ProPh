@@ -3,7 +3,7 @@ import { Count } from "./Count";
 import ItemText from "./ItemText";
 
 
-const CartItem = () => {
+export const CartItem = () => {
   return (
     <>
       <article className="cartItem">
@@ -14,4 +14,4 @@ const CartItem = () => {
     </>
   );
 };
-export default CartItem;
+

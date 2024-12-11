@@ -6,7 +6,7 @@ interface IPhotoCardProps {
   key: number;
 }
 
-const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
+export const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
   const navigate = useNavigate();
 
   /*  try to make this notFoundImage in another way or maybe make it not show at all when no image could be found.
@@ -32,5 +32,3 @@ const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
     </>
   );
 };
-
-export default PhotoCard;

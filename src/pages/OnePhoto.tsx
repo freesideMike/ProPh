@@ -5,26 +5,12 @@ interface IOnePhotoProps {
   photos: IPhoto[];
 }
 
-/*
-
-Seems like i cant get the useParams to work
-
-
-console.log(useParams());
-
-const photoId = Number(urlId);
-const selectedPhoto = photos.find((p) => p.id == photoId);
-console.log({ urlId });
-*/
 const OnePhoto: React.FC<IOnePhotoProps> = ({ photos }) => {
   const photoId = useParams<{ id: string }>();
   console.log(photoId.id);
-  
-  
+
   const photoIdNumber = Number(photoId.id);
-console.log(photoIdNumber);
-  /* 
-  const urlId = photoId.id; */
+
   const selectedPhoto = photos.find(
     (photography) => photography.id === photoIdNumber
   );
@@ -34,10 +20,12 @@ console.log(photoIdNumber);
   }
   return (
     <>
+      <HeaderSmall></HeaderSmall>
       <article className="h-8 bg-blue-900">
         <h3>{selectedPhoto.title}</h3>
-        <section>
+        <section className="w-11/12 h-4/5  object-contain object-center ">
           <img
+            className=""
             key={selectedPhoto.id}
             src={selectedPhoto.url}
             alt={selectedPhoto.title}
