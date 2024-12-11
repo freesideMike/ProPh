@@ -1,6 +1,6 @@
-import Cost from "./Cost";
+import { Cost } from "./Cost";
 import { Count } from "./Count";
-import ItemText from "./ItemText";
+import { ItemText } from "./ItemText";
 
 
 export const CartItem = () => {

@@ -1,10 +1,15 @@
-import logoBig from "./../img/logoBig.png";
+import logo from "./../img/logo.png";
 
 export const LogoSmall = () => {
   return (
-    <>      
-        <img src={logoBig} alt="ProPh - Pro Photo Logo" className="w-24 m-4 scale-50" />
+    <>
+      <section className="h-8">
+        <img
+          src={logo}
+          alt="ProPh - Pro Photo Logo"
+          className="w-5 m-1 mr-2 absolute top-1 left-2"
+        />
+      </section>
     </>
   );
 };
-

@@ -1,6 +1,7 @@
-import CartItem from "../components/CartItem";
+import { CartItem } from "../components/CartItem";
 
-const Cart = () => {
+
+export const Cart = () => {
   return (
     <>
       <h1>Cart</h1>
@@ -12,4 +13,3 @@ const Cart = () => {
     </>
   );
 };
-export default Cart;

@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router";
-import { Layout } from "./pages/Layout";
-import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import MyPage from "./pages/MyPage";
-import OnePhoto from "./pages/OnePhoto";
-import Cart from "./pages/Cart";
+/* import { Layout } from "./pages/Layout"; */
+
 import { IPhoto } from "./models/IPhoto";
+import { Home } from "./pages/Home";
+import { OnePhoto } from "./pages/OnePhoto";
+import { Cart } from "./pages/Cart";
+import { Login } from "./pages/Login";
+import { MyPage } from "./pages/MyPage";
+import { NotFound } from "./pages/NotFound";
 
 interface IRouterProps {
   photos: IPhoto[];
@@ -15,8 +16,8 @@ interface IRouterProps {
 const router = (props: IRouterProps) =>
   createBrowserRouter([
     {
-      path: "/",
-      element: <Layout />,
+     /*  path: "/",
+      element: <Layout />, */
       children: [
         {
           path: "/",

@@ -4,7 +4,7 @@ import { IVersions } from "./IVersions";
 export interface IPhoto {
   id: number;
   title: string;
-  versions: IVersions;
+  versions: IVersions[];
   times_opened: number;
   times_ordered: number;
   url: string;

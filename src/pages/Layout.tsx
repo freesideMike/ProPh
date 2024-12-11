@@ -1,11 +1,9 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "./../index.css";
-import { Header } from "../components/Header";
 
 export const Layout = () => {
   return (
     <>
-      <Header></Header>
       <nav className="">
         <hr />
         <ul className="flex flex-row justify-evenly">

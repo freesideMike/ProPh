@@ -1,20 +1,23 @@
 import { IPhoto } from "../models/IPhoto";
-import PhotoCard from "../components/PhotoCard";
+
+import { Header } from "../components/Header";
+import { PhotoCard } from "../components/PhotoCard";
 
 interface IHomeProps {
   photos: IPhoto[];
 }
 
-const Home: React.FC<IHomeProps> = ({ photos }) => {
+export const Home: React.FC<IHomeProps> = ({ photos }) => {
   return (
     <>
-      <section className="flex flex-wrap">
-        {photos.map((photo) => (
-          <PhotoCard key={photo.id} photo={photo} />
-        ))}
+      <section>
+        <Header></Header>
+        <article className="flex flex-wrap">
+          {photos.map((photo) => (
+            <PhotoCard key={photo.id} photo={photo} />
+          ))}
+        </article>
       </section>
     </>
   );
 };
-
-export default Home;
