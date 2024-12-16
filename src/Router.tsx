@@ -16,7 +16,7 @@ interface IRouterProps {
 const router = (props: IRouterProps) =>
   createBrowserRouter([
     {
-     /*  path: "/",
+      /*  path: "/",
       element: <Layout />, */
       children: [
         {
@@ -37,7 +37,7 @@ const router = (props: IRouterProps) =>
         },
         {
           path: "/admin",
-          element: <Admin />,
+          element: <Admin photos={props.photos} />,
         },
       ],
       errorElement: <NotFound />,

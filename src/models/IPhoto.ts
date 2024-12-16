@@ -10,4 +10,5 @@ export interface IPhoto {
   url: string;
   created_at: number;
   updated_at: number;
+  isActive: boolean;
 }
