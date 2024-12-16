@@ -31,13 +31,12 @@ export const OnePhoto: React.FC<IOnePhotoProps> = ({ photos }) => {
   return (
     <>
       <HeaderSmall></HeaderSmall>
-    
 
-      <div className="flex flex-col items-center justify-center min-h-screen p-16 bg-slate-200">
+      <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-200">
         {/* -------- card -------- */}
         <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col">
           {/* -------- image -------- */}
-          <section className="flex bg-slate-600  justify-center align-middle w-full">
+          <section className="flex bg-slate-200  justify-center align-middle w-full">
             <img
               className="self-center justify-self-center w-full h-full object-contain"
               key={selectedPhoto.id}
@@ -46,7 +45,7 @@ export const OnePhoto: React.FC<IOnePhotoProps> = ({ photos }) => {
             />
           </section>
           {/* -------- sizebuttons ------- */}
-          <div className="flex flex-row justif-start my-4 mb-12 w-full">
+          <div className="flex flex-row justify-start my-4 mb-12 w-full">
             <div className=" ">
               <button
                 className="toggle-theme mx-2 btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-5 py-1 rounded-full text-base font-normal leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"

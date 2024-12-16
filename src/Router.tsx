@@ -6,8 +6,8 @@ import { Home } from "./pages/Home";
 import { OnePhoto } from "./pages/OnePhoto";
 import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
-import { MyPage } from "./pages/MyPage";
 import { NotFound } from "./pages/NotFound";
+import { Admin } from "./pages/Admin";
 
 interface IRouterProps {
   photos: IPhoto[];
@@ -36,8 +36,8 @@ const router = (props: IRouterProps) =>
           element: <Login />,
         },
         {
-          path: "/mypage",
-          element: <MyPage />,
+          path: "/admin",
+          element: <Admin />,
         },
       ],
       errorElement: <NotFound />,

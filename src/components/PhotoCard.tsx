@@ -17,7 +17,7 @@ export const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
   return (
     <>
       <article
-        className="w-1/3"
+        className="w-1/2"
         onClick={() => {
           navigate(`./onephoto/${photo.id}`);
         }}
@@ -26,7 +26,7 @@ export const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
           key={photo.id}
           src={photo.url}
           alt={photo.title}
-          className="aspect-square object-cover object-center"
+          className="aspect-square object-cover object-center border-"
         />
       </article>
     </>
