@@ -31,44 +31,7 @@ export const OnePhoto: React.FC<IOnePhotoProps> = ({ photos }) => {
   return (
     <>
       <HeaderSmall></HeaderSmall>
-      {/* <article>
-        <section className="flex bg-slate-600  justify-center align-middle mt-8 w-full aspect-square">
-          <img
-            className="self-center justify-self-center w-full h-full object-contain"
-            key={selectedPhoto.id}
-            src={selectedPhoto.url}
-            alt={selectedPhoto.title}
-          />
-        </section>
-        <section className="text-2xl font-mono bg-purple-400">
-          <h3>{selectedPhoto.title}</h3>
-        </section>
-        <section className="w-full">
-          {selectedPhoto.versions.map((size) => (
-            <>
-              <hr />
-              <ul className="flex flex-row justify-between m-4 align-bottom">
-                <div className="flex flex-row object-left align-bottom">
-                  <li className="text-xl align-bottom ">{size.sizeName}</li>
-                  
-                  <li className=" align-bottom ms-2 font-semibold text-gray-500 dark:text-gray-400">
-                    {size.size}
-                  </li>
-                </div>
-                <div className="flex flex-row object-right align-bottom">
-                  <li className="align-bottom"> {size.price + " kr"} </li>
-                  <li className="align-bottom">
-                    <div>
-                      <Button click={addToCart} children={"Köp"}></Button>
-                    </div>
-                  </li>
-                </div>
-              </ul>
-            </>
-          ))}
-        </section>
-        <VersionList></VersionList>
-      </article> */}
+    
 
       <div className="flex flex-col items-center justify-center min-h-screen p-16 bg-slate-200">
         {/* -------- card -------- */}

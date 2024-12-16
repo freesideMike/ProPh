@@ -1,9 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import logo from "./../img/logo.png";
 
 export const LogoSmall = () => {
+  const navigate = useNavigate();
   return (
     <>
-      <section className="h-9">
+      <section
+        className="h-9"
+        onClick={() => {
+          navigate(`./../../`);
+        }}
+      >
         <img
           src={logo}
           alt="ProPh - Pro Photo Logo"

@@ -11,7 +11,10 @@ export const Layout = () => {
             <NavLink to={"/"}>Hem</NavLink>
           </li>
           <li>
-            <NavLink to={"/onePhoto/:id"} >One Photo</NavLink>
+            <NavLink to={"/start"}>Start</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/onePhoto/:id"}>One Photo</NavLink>
           </li>
           <li>
             <NavLink to={"/cart"}>Cart</NavLink>
@@ -23,8 +26,9 @@ export const Layout = () => {
         <Outlet />
       </main>
       <footer>
-        <p>POWERED by Mikael Cardaba</p>
-        <p></p>
+        <p>POWERED</p>
+        <p>by</p>
+        <p>Mikael Cardaba</p>
       </footer>
     </>
   );
