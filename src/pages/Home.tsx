@@ -13,9 +13,10 @@ export const Home: React.FC<IHomeProps> = ({ photos }) => {
       <section>
         <Header></Header>
         <article className="flex flex-wrap">
-          {photos.map((photo) => (
-            <PhotoCard key={photo.id} photo={photo} />
-          ))}
+          {photos.map(
+            (photo) =>
+              photo.isActive && <PhotoCard key={photo.id} photo={photo} />
+          )}
         </article>
       </section>
     </>

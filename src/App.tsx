@@ -7,7 +7,6 @@ import { IPhoto } from "./models/IPhoto";
 
 const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY!;
-console.log(supabaseUrl);
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const App = () => {
@@ -17,9 +16,20 @@ const App = () => {
     getPhotos();
   }, []);
 
+  // get photos from database into photos-state
+  const getPhotos = async () => {
+    const { data, error } = await supabase.from("Photos").select();
+    if (error) {
+      console.error("Error fetching photos:", error);
+    } else {
+      setPhotos(data);
+    }
+  };
+  
+
+  // UPDATES THE DATABASE
   const updateIsActiveInPhotoDb = async (id: number, isActive: boolean) => {
-    console.log(isActive);
-    const { data, error } = await supabase
+   const { data, error } = await supabase
       .from("Photos") // Replace 'photos' with your table name
       .update({ isActive }) // Update the isActive field
       .eq("id", id); // Match the photo by id
@@ -31,28 +41,36 @@ const App = () => {
     }
   };
 
+  
+    //Adds new photo to database
+  const addNewPhotoOInPhotoDb = () => {
+     
+
+
+    console.log("New photo added to Database")
+    }
+
+  // UPDATES THE STATE
+  //changes if the isActive (if the photo shows up in gallery or not)
   const changeIsActive = (id: number) => {
     const newPhotos = photos.map((photo) =>
       photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
     );
 
     setPhotos(newPhotos);
-    console.log(photos);
-    const updatedPhoto = newPhotos.find((photo) => photo.id === id);
+       const updatedPhoto = newPhotos.find((photo) => photo.id === id);
     if (updatedPhoto) {
-      console.log(updatedPhoto.isActive);
-      updateIsActiveInPhotoDb(id, updatedPhoto.isActive);
+         updateIsActiveInPhotoDb(id, updatedPhoto.isActive);
     }
   };
 
-  const getPhotos = async () => {
-    const { data, error } = await supabase.from("Photos").select();
-    if (error) {
-      console.error("Error fetching photos:", error);
-    } else {
-      setPhotos(data);
-    }
-  };
+  const addNewPhoto = () => {
+    // add to state with a constructor and a spread operator . . . 
+
+    console.log("New photo added to State")
+
+    addNewPhotoOInPhotoDb();
+  }
 
   return (
     <>

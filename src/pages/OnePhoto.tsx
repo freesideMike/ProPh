@@ -9,10 +9,7 @@ interface IOnePhotoProps {
 
 export const OnePhoto: React.FC<IOnePhotoProps> = ({ photos }) => {
   const photoId = useParams<{ id: string }>();
-  console.log(photoId.id);
-
   const photoIdNumber = Number(photoId.id);
-
   const selectedPhoto = photos.find(
     (photography) => photography.id === photoIdNumber
   );
