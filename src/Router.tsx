@@ -11,9 +11,10 @@ import { Admin } from "./pages/Admin";
 
 interface IRouterProps {
   photos: IPhoto[];
+  changeIsActive: (id: number) => void;
 }
 
-const router = (props: IRouterProps) =>
+const Router = (props: IRouterProps) =>
   createBrowserRouter([
     {
       /*  path: "/",
@@ -37,11 +38,12 @@ const router = (props: IRouterProps) =>
         },
         {
           path: "/admin",
-          element: <Admin photos={props.photos} />,
+          element: (
+            <Admin photos={props.photos} changeIsActive={props.changeIsActive} />
+          ),
         },
       ],
       errorElement: <NotFound />,
     },
   ]);
-
-export default router;
+ export default Router;

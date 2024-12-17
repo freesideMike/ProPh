@@ -2,21 +2,17 @@ import { IPhoto } from "../models/IPhoto";
 
 interface IAdminProps {
   photos: IPhoto[];
-  setPhotos: IPhoto[];
+  changeIsActive: (id: number) => void;
 }
 
-export const Admin: React.FC<IAdminProps> = ({ photos, setPhotos }) => {
-  // if not logged in --> go to loginpage
+export const Admin: React.FC<IAdminProps> = ({ photos, changeIsActive }) => {
+ 
 
+  
+
+  // if not logged in --> go to loginpage
   //ändra detta state till ett props från photo-statet.
 
-  const handleChangeIsActive = (id) => {
-    setPhotos((photos) =>
-      photos.map((photo) =>
-        photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
-      )
-    );
-  };
   return (
     <>
       <h1>Hej dittAnvändarnamn</h1>
@@ -58,7 +54,7 @@ export const Admin: React.FC<IAdminProps> = ({ photos, setPhotos }) => {
                     <input
                       type="checkbox"
                       checked={photo.isActive}
-                      onChange={() => handleChangeIsActive(photo.id)}
+                      onChange={() => { changeIsActive(photo.id) }}
                     />
                     Show
                   </div>
