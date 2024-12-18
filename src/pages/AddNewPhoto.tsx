@@ -8,12 +8,18 @@ interface IAddNewPhotoProps {
 
 export const AddNewPhoto: React.FC<IAddNewPhotoProps> = () => {
   const [format, setFormat] = useState("portrait");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // selected format hämtas från inputrutan Format längre ner
-
     setFormat(e.target.value);
   };
+
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files.length > 0) {
+    setSelectedFile(e.target.files[0]); // Set the selected file
+  }
+};
+
   let smallMeasurements, mediumMeasurements, largeMeasurements;
   let smallPrice, mediumPrice, largePrice;
 
@@ -88,9 +94,10 @@ export const AddNewPhoto: React.FC<IAddNewPhotoProps> = () => {
                         ({"photo (.jpg)"}) {/* label for what photo to add */}
                       </label>
                       <input
-                        type="link"
+                        type="file"
+                        accept=".jpg"
+                        onChange={handleFileChange}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        value="Find a way to open the windows expoler and find a photo on your local drive or in a cloud service"
                       />
                     </div>
                   </article>
@@ -139,22 +146,6 @@ export const AddNewPhoto: React.FC<IAddNewPhotoProps> = () => {
                     price={largePrice}
                   />
 
-                  {/* 
-                  <Formats
-                    size="Small"
-                    meauserments={smallMeauserments}
-                    price={smallPrice}
-                  />
-                  <Formats
-                    size="Medium"
-                    meauserments={mediumMeauserments}
-                    price={mediumPrice}
-                  />
-                  <Formats
-                    size="Large"
-                    meauserments={largeMeauserments}
-                    price={largePrice}
-                  /> */}
                 </div>
 
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
