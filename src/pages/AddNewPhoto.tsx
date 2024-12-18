@@ -7,7 +7,6 @@ interface IAddNewPhotoProps {
 }
 
 export const AddNewPhoto: React.FC<IAddNewPhotoProps> = () => {
-
   const [format, setFormat] = useState("portrait");
 
   const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -17,36 +16,36 @@ export const AddNewPhoto: React.FC<IAddNewPhotoProps> = () => {
   };
   let smallMeasurements, mediumMeasurements, largeMeasurements;
   let smallPrice, mediumPrice, largePrice;
-  
-  if (format === "portrait") {
-     smallMeasurements = "10 x 15 cm";
-     mediumMeasurements = "30 x 45 cm";
-     largeMeasurements = "60 x 90 cm";
-     smallPrice = "5 kr";
-     mediumPrice = "79 kr";
-     largePrice = "399 kr";  
+
+  if (format === "Portrait") {
+    smallMeasurements = "10 x 15 cm";
+    mediumMeasurements = "30 x 45 cm";
+    largeMeasurements = "60 x 90 cm";
+    smallPrice = "5 kr";
+    mediumPrice = "79 kr";
+    largePrice = "399 kr";
   } else if (format === "Landscape") {
-         smallMeasurements = "15 x 10 cm";
-         mediumMeasurements = "45 x 30 cm";
-         largeMeasurements = "90 x 60 cm";
-         smallPrice = "5 kr";
-         mediumPrice = "79 kr";
-         largePrice = "399 kr";  
-  } else if (format === "Squere") {
-            smallMeasurements = "15 x 15 cm";
-            mediumMeasurements = "45 x 45 cm";
-            largeMeasurements = "60 x 60 cm";
-            smallPrice = "10 kr";
-            mediumPrice = "89 kr";
-            largePrice = "299 kr"; 
+    smallMeasurements = "15 x 10 cm";
+    mediumMeasurements = "45 x 30 cm";
+    largeMeasurements = "90 x 60 cm";
+    smallPrice = "5 kr";
+    mediumPrice = "79 kr";
+    largePrice = "399 kr";
+  } else if (format === "Square") {
+    smallMeasurements = "15 x 15 cm";
+    mediumMeasurements = "45 x 45 cm";
+    largeMeasurements = "60 x 60 cm";
+    smallPrice = "10 kr";
+    mediumPrice = "89 kr";
+    largePrice = "299 kr";
   } else {
-      smallMeasurements = "";
-      mediumMeasurements = "";
-      largeMeasurements = "";
-      smallPrice = "";
-      mediumPrice = "";
-      largePrice = ""; 
-}
+    smallMeasurements = "";
+    mediumMeasurements = "";
+    largeMeasurements = "";
+    smallPrice = "";
+    mediumPrice = "";
+    largePrice = "";
+  }
 
   return (
     <>
