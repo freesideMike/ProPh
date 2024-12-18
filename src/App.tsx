@@ -42,13 +42,27 @@ const App = () => {
   };
 
   
+
     //Adds new photo to database
   const addNewPhotoOInPhotoDb = () => {
-     
+  
+  
+    // to add the photo to the storage in Database here is what you will do.
+  
+    /* const uploadImage = async (file) => {
+  const { data, error } = await supabase.storage
+    .from('your-bucket-name') // Replace with your bucket name
+    .upload(`images/${file.name}`, file); // Path where the file will be stored
 
+  if (error) {
+    console.error('Error uploading image:', error);
+  } else {
+    console.log('Image uploaded:', data);
+  }
+}; */
 
-    console.log("New photo added to Database")
-    }
+    console.log("New photo added to Database");
+  }
 
   // UPDATES THE STATE
   //changes if the isActive (if the photo shows up in gallery or not)
@@ -75,7 +89,7 @@ const App = () => {
   return (
     <>
       <RouterProvider
-        router={router({ photos, changeIsActive })}
+        router={router({ photos, changeIsActive, addNewPhoto })}
       ></RouterProvider>
     </>
   );

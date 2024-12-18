@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { IPhoto } from "../models/IPhoto";
 import { HeaderSmall } from "../components/HeaderSmall";
 
-
 interface IOnePhotoProps {
   photos: IPhoto[];
 }

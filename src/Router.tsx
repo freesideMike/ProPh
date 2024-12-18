@@ -8,9 +8,11 @@ import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Admin } from "./pages/Admin";
+import { AddNewPhoto } from "./pages/AddNewPhoto";
 
 interface IRouterProps {
   photos: IPhoto[];
+  addNewPhoto: () => void;
   changeIsActive: (id: number) => void;
 }
 
@@ -39,11 +41,23 @@ const Router = (props: IRouterProps) =>
         {
           path: "/admin",
           element: (
-            <Admin photos={props.photos} changeIsActive={props.changeIsActive} />
+            <Admin
+              photos={props.photos}
+              changeIsActive={props.changeIsActive}
+            />
+          ),
+        },
+        {
+          path: "/addnew",
+          element: (
+            <AddNewPhoto
+              addNewPhoto={props.addNewPhoto}
+              changeIsActive={props.changeIsActive}
+            />
           ),
         },
       ],
       errorElement: <NotFound />,
     },
   ]);
- export default Router;
+export default Router;
