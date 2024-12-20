@@ -9,6 +9,12 @@ interface IAddNewPhotoProps {
 export const AddNewPhoto: React.FC<IAddNewPhotoProps> = () => {
   const [format, setFormat] = useState("portrait");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  
+const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setTitle(e.target.value);
+};
+
 
   const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormat(e.target.value);
@@ -83,8 +89,9 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                       <input
                         type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        value="Beautiful blue flower"
-                      />
+                        value={title}
+                        onChange={handleTitleChange}  
+                        />
                     </div>
                   </article>
 
