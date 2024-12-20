@@ -1,90 +1,168 @@
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { IPhoto } from "../models/IPhoto";
 
 interface IAdminProps {
   photos: IPhoto[];
+  email: string;
   changeIsActive: (id: number) => void;
+  handleEmailInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Admin: React.FC<IAdminProps> = ({ photos, changeIsActive }) => {
- 
-
-  
+export const Admin = (props: IAdminProps) => {
+  const user = useUser();
+  const supabase = useSupabaseClient();
+  console.log(props.email);
 
   // if not logged in --> go to loginpage
   //ändra detta state till ett props från photo-statet.
+  const magicLinkLogin = async () => {
+    const { error } = await supabase.auth.signInWithOtp({ email: props.email });
+    if (error) {
+      console.error(
+        "Error logging in:",
+        error.message
+      ); /* make this into a nice message on the screen, or just an alert */
+    } else {
+      console.log(
+        "Magic link has been sent to your email"
+      ); /* make this into a nice message on the screen, or just an alert */
+    }
+  };
+
+  const logOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    console.log("logged out" + error);
+  };
 
   return (
     <>
-      <h1>Hej dittAnvändarnamn</h1>
-
-      {/* visa alla bilder som en lista
-    använd samma som för visa ett foto.
-    
-    liten bild, titel, active as checkbox, addButton for update 
-    
-    klicka på update för att ändra
-    
-    klicka på checkbox för att bilden skall visas i galleri eller inte 
-    
-    update kanske kan öppnas mitt i listan?    
-    
-    */}
-
-      <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-200">
-        <h1 className="my-10 font-medium text-3xl sm:text-4xl">My photos</h1>
-
-        <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
-          {photos.map((photo) => (
-            <>
-              <div className="user-row flex flex-col items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]">
-                <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
-                  <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
-                    <img className="avatar w-20 h-20" src={photo.url} />
+      {user == null ? (
+        <>
+          {" "}
+          {/* if not logged in, show login-field */}
+          <section className=" py-1 bg-blueGray-50">
+            <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+                <article className="rounded-t bg-white mb-0 px-6 py-6">
+                  <div className="text-center flex justify-between">
+                    <h6 className="text-blueGray-700 text-xl font-bold">
+                      Enter your email to get a Supabase Magick Link to be able
+                      to log in as admin
+                    </h6>
                   </div>
+                </article>
 
-                  <div className="skills flex flex-col">
-                    <span className="subtitle text-slate-500">
-                      {photo.title}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="user-option mx-auto sm:ml-auto sm:mr-0">
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={photo.isActive}
-                      onChange={() => { changeIsActive(photo.id) }}
-                    />
-                    Show
-                  </div>
-                  <button
-                    className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
-                    type="button"
-                  >
-                    Edit
-                  </button>
+                <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+                  <form>
+                    <div className="flex flex-wrap">
+                      <article className="w-full lg:w-6/12 px-4">
+                        <div className="relative w-full mb-3">
+                          <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                            E-mail
+                          </label>
+                          <input
+                            type="email"
+                            placeholder="enter your valid email"
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            value={props.email}
+                            onChange={props.handleEmailInput}
+                          />
+                        </div>
+                      </article>
+                    </div>
+                    <button
+                      className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={magicLinkLogin}
+                    >
+                      Get Magic Link
+                    </button>
+                  </form>
                 </div>
               </div>
-            </>
-          ))}
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          {" "}
+          {/* if logged in, show your Gallery-admin */}
+          <h1>Hej dittAnvändarnamn</h1>
+          <button
+            className="bg-gray-300 text-white active:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+            type="button"
+            onClick={logOut}
+          >
+            logout
+          </button>
+          {/* visa alla bilder som en lista
+        använd samma som för visa ett foto.
+        liten bild, titel, active as checkbox, addButton for update 
+        klicka på update för att ändra
+        klicka på checkbox för att bilden skall visas i galleri eller inte 
+        update kanske kan öppnas mitt i listan?    
+        */}
+          <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-200">
+            <h1 className="my-10 font-medium text-3xl sm:text-4xl">
+              My photos
+            </h1>
 
-          <div className="user-option mx-auto">
-            <button
-              className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
-              type="button"
+            <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
+              {props.photos.map((photo) => (
+                <>
+                  <div className="user-row flex flex-col items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]">
+                    <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
+                      <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
+                        <img className="avatar w-20 h-20" src={photo.url} />
+                      </div>
+
+                      <div className="skills flex flex-col">
+                        <span className="subtitle text-slate-500">
+                          {photo.title}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="user-option mx-auto sm:ml-auto sm:mr-0">
+                      <div>
+                        <input
+                          type="checkbox"
+                          checked={photo.isActive}
+                          onChange={() => {
+                            props.changeIsActive(photo.id);
+                          }}
+                        />
+                        Show
+                      </div>
+                      <button
+                        className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
+                        type="button"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ))}
+
+              <div className="user-option mx-auto">
+                <button
+                  className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
+                  type="button"
+                >
+                  Add new Photo
+                </button>
+              </div>
+            </div>
+            <a
+              className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded hover:border-2 hover:border-white  font-medium duration-300"
+              href="#/"
             >
-              Add new Photo
-            </button>
+              Back to Gallery
+            </a>
           </div>
-        </div>
-        <a
-          className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded hover:border-2 hover:border-white  font-medium duration-300"
-          href="#/"
-        >
-          Back to Gallery
-        </a>
-      </div>
+        </>
+      )}
     </>
   );
 };

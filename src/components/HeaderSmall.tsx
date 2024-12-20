@@ -1,4 +1,3 @@
-import { CartIcon } from "./CartIcon";
 import { LogoSmall } from "./LogoSmall";
 
 export const HeaderSmall = () => {

@@ -7,13 +7,13 @@ interface IHomeProps {
   photos: IPhoto[];
 }
 
-export const Home: React.FC<IHomeProps> = ({ photos }) => {
+export const Home= ( props: IHomeProps ) => {
   return (
     <>
       <section>
         <Header></Header>
         <article className="flex flex-wrap">
-          {photos.map(
+          {props.photos.map(
             (photo) =>
               photo.isActive && <PhotoCard key={photo.id} photo={photo} />
           )}

@@ -16,7 +16,7 @@ export const Header = () => {
                 to={"/"}
                 className={"mx-2 lg:mx-5 font-light lg:text-2xl"}
               >
-                Gallery
+                Log In / Admin
               </NavLink>
             </li>
             <li>

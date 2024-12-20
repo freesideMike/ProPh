@@ -1,6 +1,6 @@
 import "./App.css";
 import { RouterProvider } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import router from "./Router";
 import { IPhoto } from "./models/IPhoto";
@@ -11,10 +11,16 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const App = () => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
-
+  const  [ email, setEmail ] = useState<string>("");
+  
   useEffect(() => {
     getPhotos();
   }, []);
+  
+  
+  const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
   // get photos from database into photos-state
   const getPhotos = async () => {
@@ -30,17 +36,15 @@ const App = () => {
   // UPDATES THE DATABASE
   const updateIsActiveInPhotoDb = async (id: number, isActive: boolean) => {
    const { data, error } = await supabase
-      .from("Photos") // Replace 'photos' with your table name
-      .update({ isActive }) // Update the isActive field
-      .eq("id", id); // Match the photo by id
-
+      .from("Photos") 
+      .update({ isActive }) 
+      .eq("id", id); 
     if (error) {
       console.error("Error updating photo:", error);
     } else {
       console.log("Photo updated:", data);
     }
   };
-
   
 
     //Adds new photo to database
@@ -71,6 +75,7 @@ const App = () => {
       photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
     );
 
+
     setPhotos(newPhotos);
        const updatedPhoto = newPhotos.find((photo) => photo.id === id);
     if (updatedPhoto) {
@@ -89,7 +94,7 @@ const App = () => {
   return (
     <>
       <RouterProvider
-        router={router({ photos, changeIsActive, addNewPhoto })}
+        router={router({ photos, changeIsActive, addNewPhoto, email, handleEmailInput })}
       ></RouterProvider>
     </>
   );

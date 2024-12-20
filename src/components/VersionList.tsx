@@ -6,14 +6,6 @@ export const VersionList = () => {
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
         rel="stylesheet"
       />
-
-      {/* <style>
-    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
-    body{
-      font-family: "Roboto", sans-serif;
-    }
-</style> */}
-
       <div className="flex flex-col items-center justify-center min-h-screen p-16 bg-slate-200">
         <div className="flex flex-row justify-evenly w-full mb-4">
 

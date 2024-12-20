@@ -1,4 +1,3 @@
-import React from "react";
 
 interface IFormatsProps {
   size: string;
@@ -6,11 +5,11 @@ interface IFormatsProps {
   price: string;
 }
 
-const Formats: React.FC<IFormatsProps> = ({ size, meauserments, price }) => {
+const Formats = ( props: IFormatsProps) => {
 
-  console.log(size)
-  console.log(meauserments)
-  console.log(price)
+  console.log(props.size)
+  console.log(props.meauserments);
+  console.log(props.price);
 
   return (
     <>
@@ -22,7 +21,7 @@ const Formats: React.FC<IFormatsProps> = ({ size, meauserments, price }) => {
           <input
             type="email"
             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-            value={size}
+            value={props.size}
           />
         </div>
       </article>
@@ -35,7 +34,7 @@ const Formats: React.FC<IFormatsProps> = ({ size, meauserments, price }) => {
           <input
             type="text"
             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-            value={meauserments}
+            value={props.meauserments}
           />
         </div>
       </article>
@@ -47,7 +46,7 @@ const Formats: React.FC<IFormatsProps> = ({ size, meauserments, price }) => {
           <input
             type="text"
             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-            value={price}
+            value={props.price}
           />
         </div>
       </article>

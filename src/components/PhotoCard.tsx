@@ -6,7 +6,7 @@ interface IPhotoCardProps {
   key: number;
 }
 
-export const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
+export const PhotoCard = ( props: IPhotoCardProps) => {
   const navigate = useNavigate();
 
   /*  try to make this notFoundImage in another way or maybe make it not show at all when no image could be found.
@@ -19,13 +19,13 @@ export const PhotoCard: React.FC<IPhotoCardProps> = ({ photo }) => {
       <article
         className="w-1/2"
         onClick={() => {
-          navigate(`./onephoto/${photo.id}`);
+          navigate(`./onephoto/${props.photo.id}`);
         }}
       >
         <img
-          key={photo.id}
-          src={photo.url}
-          alt={photo.title}
+          key={props.photo.id}
+          src={props.photo.url}
+          alt={props.photo.title}
           className="aspect-square object-cover object-center border-"
         />
       </article>

@@ -12,8 +12,10 @@ import { AddNewPhoto } from "./pages/AddNewPhoto";
 
 interface IRouterProps {
   photos: IPhoto[];
+  email: string;
   addNewPhoto: () => void;
   changeIsActive: (id: number) => void;
+  handleEmailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Router = (props: IRouterProps) =>
@@ -44,6 +46,8 @@ const Router = (props: IRouterProps) =>
             <Admin
               photos={props.photos}
               changeIsActive={props.changeIsActive}
+              email={props.email}
+              handleEmailInput={props.handleEmailInput}
             />
           ),
         },
