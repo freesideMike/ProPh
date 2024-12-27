@@ -16,6 +16,16 @@ interface IRouterProps {
   addNewPhoto: () => void;
   changeIsActive: (id: number) => void;
   handleEmailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  uploadImage: (file: File) => void;
+  getYourOwnPhotos: () => void;
+  title: string;
+  titleChange: (value: string) => void;
+  url: string;
+  urlChange: (value: string) => void;
+  format: string;
+  formatChange: (value: string) => void;
+  priceRange: string;
+  priceRangeChange: (value: string) => void;
 }
 
 const Router = (props: IRouterProps) =>
@@ -48,18 +58,28 @@ const Router = (props: IRouterProps) =>
               changeIsActive={props.changeIsActive}
               email={props.email}
               handleEmailInput={props.handleEmailInput}
+              getYourOwnPhotos={props.getYourOwnPhotos}
+              uploadImage={props.uploadImage}
+              title={props.title}
+              titleChange={props.titleChange}
+              url={props.url}
+              urlChange={props.urlChange}
+              format={props.format}
+              formatChange={props.formatChange}
+              priceRange={props.priceRange}
+              priceRangeChange={props.priceRangeChange}
             />
           ),
         },
-        {
+      /*   {
           path: "/addnew",
           element: (
             <AddNewPhoto
-              addNewPhoto={props.addNewPhoto}
               changeIsActive={props.changeIsActive}
+              uploadImage={props.uploadImage}
             />
           ),
-        },
+        }, */
       ],
       errorElement: <NotFound />,
     },

@@ -1,4 +1,3 @@
-
 interface IFormatsProps {
   size: string;
   meauserments: string;
@@ -13,22 +12,11 @@ const Formats = ( props: IFormatsProps) => {
 
   return (
     <>
-      <article className="w-full lg:w-4/12 px-4">
+     
+      <article className="w-full lg:w-6/12 px-4">
         <div className="relative w-full mb-3">
           <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-            Size Name
-          </label>
-          <input
-            type="email"
-            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-            value={props.size}
-          />
-        </div>
-      </article>
-      <article className="w-full lg:w-4/12 px-4">
-        <div className="relative w-full mb-3">
-          <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-            Size in centimeters
+            Size
             {/* label for measurements */}
           </label>
           <input
@@ -38,7 +26,7 @@ const Formats = ( props: IFormatsProps) => {
           />
         </div>
       </article>
-      <article className="w-full lg:w-4/12 px-4">
+      <article className="w-full lg:w-6/12 px-4">
         <div className="relative w-full mb-3">
           <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
             Price

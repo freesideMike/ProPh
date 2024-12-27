@@ -1,63 +1,108 @@
 import React, { useState } from "react";
 import Formats from "../components/Formats";
+import { IPhoto } from "../models/IPhoto";
+import { mapValueFieldNames } from "sequelize/lib/utils";
 
 interface IAddNewPhotoProps {
   changeIsActive: (id: number) => void;
-  addNewPhoto: () => void;
+  uploadImage: (file: File) => void;
+  title: string;
+  titleChange: (value: string) => void;
+  url: string;
+  urlChange: (value: string) => void;
+  format: string;
+  formatChange: (value: string) => void;
+  priceRange: string;
+  priceRangeChange: (value: string) => void;
 }
 
-export const AddNewPhoto = ( props: IAddNewPhotoProps) => {
-  const [format, setFormat] = useState("portrait");
+export const AddNewPhoto = (props: IAddNewPhotoProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [title, setTitle] = useState("");
-  
-const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setTitle(e.target.value);
-};
 
+console.log(props);
 
-  const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormat(e.target.value);
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    props.titleChange(String(e.target.value));
+  };
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    props.urlChange(String(e.target.value));
   };
 
-const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files.length > 0) {
-    setSelectedFile(e.target.files[0]); // Set the selected file
-  }
-};
+  const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    props.formatChange(String(e.target.value));
+  };
+  const handlePriceRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    props.priceRangeChange(String(e.target.value));
+  };
 
-  let smallMeasurements, mediumMeasurements, largeMeasurements;
-  let smallPrice, mediumPrice, largePrice;
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]); // Set the selected file
+    }
+  };
 
-  if (format === "Portrait") {
+  /* 
+
     smallMeasurements = "10 x 15 cm";
-    mediumMeasurements = "30 x 45 cm";
-    largeMeasurements = "60 x 90 cm";
-    smallPrice = "5 kr";
-    mediumPrice = "79 kr";
-    largePrice = "399 kr";
-  } else if (format === "Landscape") {
-    smallMeasurements = "15 x 10 cm";
-    mediumMeasurements = "45 x 30 cm";
-    largeMeasurements = "90 x 60 cm";
-    smallPrice = "5 kr";
-    mediumPrice = "79 kr";
-    largePrice = "399 kr";
-  } else if (format === "Square") {
-    smallMeasurements = "15 x 15 cm";
-    mediumMeasurements = "45 x 45 cm";
-    largeMeasurements = "60 x 60 cm";
-    smallPrice = "10 kr";
-    mediumPrice = "89 kr";
-    largePrice = "299 kr";
-  } else {
-    smallMeasurements = "";
-    mediumMeasurements = "";
-    largeMeasurements = "";
-    smallPrice = "";
-    mediumPrice = "";
-    largePrice = "";
-  }
+        mediumMeasurements = "30 x 45 cm";
+        largeMeasurements = "60 x 90 cm";
+        smallPrice = "5 kr";
+        mediumPrice = "79 kr";
+        largePrice = "399 kr";
+      } else if (format === "Landscape") {
+        smallMeasurements = "15 x 10 cm";
+        mediumMeasurements = "45 x 30 cm";
+        largeMeasurements = "90 x 60 cm";
+        smallPrice = "5 kr";
+        mediumPrice = "79 kr";
+        largePrice = "399 kr";
+      } else if (format === "Square") {
+        smallMeasurements = "15 x 15 cm";
+        mediumMeasurements = "45 x 45 cm";
+        largeMeasurements = "60 x 60 cm";
+        smallPrice = "10 kr";
+        mediumPrice = "89 kr";
+        largePrice = "299 kr";
+      } else {
+        smallMeasurements = "";
+        mediumMeasurements = "";
+        largeMeasurements = "";
+        smallPrice = "";
+        mediumPrice = "";
+        largePrice = "";
+      }
+
+ */
+
+  /*     if (format === "Portrait") {
+      smallMeasurements = "10 x 15 cm";
+      mediumMeasurements = "30 x 45 cm";
+      largeMeasurements = "60 x 90 cm";
+      smallPrice = "5 kr";
+      mediumPrice = "79 kr";
+      largePrice = "399 kr";
+    } else if (format === "Landscape") {
+      smallMeasurements = "15 x 10 cm";
+      mediumMeasurements = "45 x 30 cm";
+      largeMeasurements = "90 x 60 cm";
+      smallPrice = "5 kr";
+      mediumPrice = "79 kr";
+      largePrice = "399 kr";
+    } else if (format === "Square") {
+      smallMeasurements = "15 x 15 cm";
+      mediumMeasurements = "45 x 45 cm";
+      largeMeasurements = "60 x 60 cm";
+      smallPrice = "10 kr";
+      mediumPrice = "89 kr";
+      largePrice = "299 kr";
+    } else {
+      smallMeasurements = "";
+      mediumMeasurements = "";
+      largeMeasurements = "";
+      smallPrice = "";
+      mediumPrice = "";
+      largePrice = "";
+    } */
 
   return (
     <>
@@ -73,7 +118,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             </article>
 
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-              <form>
+              <form onSubmit={(e) => e.preventDefault()}>
                 <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                   Photo Information
                 </h6>
@@ -86,9 +131,12 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                       <input
                         type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        value={title}
-                        onChange={handleTitleChange}  
-                        />
+                        title="Add a title of the photo you want to dispaly in the gallery"
+                        value={props.title}
+                        onChange={(e) => {
+                          handleTitleChange(e);
+                        }}
+                      />
                     </div>
                   </article>
 
@@ -100,7 +148,9 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                       <input
                         type="file"
                         accept=".jpg"
-                        onChange={handleFileChange}
+                        onChange={(e) => {
+                          handleUrlChange(e)
+                        }}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
@@ -120,8 +170,10 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                         Format
                       </label>
                       <select
-                        value={format}
-                        onChange={handleFormatChange}
+                        value={props.format}
+                        onChange={(e) => {
+                          handleFormatChange(e)
+                        }}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       >
                         <option value="" disabled>
@@ -133,8 +185,28 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                       </select>
                     </div>
                   </article>
-
-                  <Formats
+                  <article className="w-full lg:w-12/12 px-4">
+                    <div className="relative w-full mb-3">
+                      <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                        Pricerange
+                      </label>
+                      <select
+                        value={props.priceRange}
+                        onChange={(e) => {
+                          handlePriceRangeChange(e)
+                        }}
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      >
+                        <option value="" disabled>
+                          Select a pricerange
+                        </option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                      </select>
+                    </div>
+                  </article>
+                  {/*  <Formats
                     size="Small"
                     meauserments={smallMeasurements}
                     price={smallPrice}
@@ -148,8 +220,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                     size="Large"
                     meauserments={largeMeasurements}
                     price={largePrice}
-                  />
-
+                  /> */}
                 </div>
 
                 <hr className="mt-6 border-b-1 border-blueGray-300" />

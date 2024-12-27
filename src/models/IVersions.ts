@@ -1,5 +1,6 @@
 export interface IVersions {
-  sizeName: string;
+  format: string;
+  pricerange: string;
   size: string;
   price: number;
 }

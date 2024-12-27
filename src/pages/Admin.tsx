@@ -1,17 +1,31 @@
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { IPhoto } from "../models/IPhoto";
+import { useState } from "react";
+import { AddNewPhoto } from "./AddNewPhoto";
 
 interface IAdminProps {
   photos: IPhoto[];
   email: string;
   changeIsActive: (id: number) => void;
   handleEmailInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  getYourOwnPhotos: () => void;
+  uploadImage: (file: File) => void;
+  title: string;
+  titleChange: (value: string) => void;
+  url: string;
+  urlChange: (value: string) => void;
+  format: string;
+  formatChange: (value: string) => void;
+  priceRange: string;
+  priceRangeChange: (value: string) => void;
 }
 
 export const Admin = (props: IAdminProps) => {
   const user = useUser();
   const supabase = useSupabaseClient();
   console.log(props.email);
+
+  const [showAddNewPhoto, setShowAddNewPhoto] = useState(false);
 
   // if not logged in --> go to loginpage
   //ändra detta state till ett props från photo-statet.
@@ -32,6 +46,51 @@ export const Admin = (props: IAdminProps) => {
   const logOut = async () => {
     const { error } = await supabase.auth.signOut();
     console.log("logged out" + error);
+  };
+
+  const toggleShowAddNewPhoto = () => {
+    setShowAddNewPhoto(!showAddNewPhoto);
+  };
+
+  const handleGetYourOwnPhotos = () => {
+    if (!props.photos || props.photos.length === 0) {
+      return <p>No photos available.</p>;
+    }
+    return props.photos.map((photo) => (
+      <div
+        key={photo.id}
+        className="user-row flex flex-col items-center justify-between cursor-pointer p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
+      >
+        <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
+          <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
+            <img
+              className="avatar w-20 h-20"
+              src={photo.url}
+              alt={photo.title}
+            />
+          </div>
+          <div className="skills flex flex-col">
+            <span className="subtitle text-slate-500">{photo.title}</span>
+          </div>
+        </div>
+        <div className="user-option mx-auto sm:ml-auto sm:mr-0">
+          <div>
+            <input
+              type="checkbox"
+              checked={photo.isActive}
+              onChange={() => props.changeIsActive(photo.id)}
+            />
+            Show
+          </div>
+          <button
+            className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
+            type="button"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    ));
   };
 
   return (
@@ -107,6 +166,8 @@ export const Admin = (props: IAdminProps) => {
               My photos
             </h1>
 
+            <div>{handleGetYourOwnPhotos()}</div>
+
             <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
               {props.photos.map((photo) => (
                 <>
@@ -144,15 +205,30 @@ export const Admin = (props: IAdminProps) => {
                   </div>
                 </>
               ))}
-
               <div className="user-option mx-auto">
                 <button
                   className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
                   type="button"
+                  onClick={toggleShowAddNewPhoto}
                 >
                   Add new Photo
                 </button>
               </div>
+              {showAddNewPhoto && (
+                <AddNewPhoto
+                  changeIsActive={props.changeIsActive}
+                  uploadImage={props.uploadImage}
+                  title={props.title}
+                  titleChange={props.titleChange}
+                  url={props.url}
+                  urlChange={props.urlChange}
+                  format={props.format}
+                  formatChange={props.formatChange}
+                  priceRange={props.priceRange}
+                  priceRangeChange={props.priceRangeChange}
+                />
+              )}
+              ;
             </div>
             <a
               className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded hover:border-2 hover:border-white  font-medium duration-300"
