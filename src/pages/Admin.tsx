@@ -9,15 +9,18 @@ interface IAdminProps {
   changeIsActive: (id: number) => void;
   handleEmailInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   getYourOwnPhotos: () => void;
-  uploadImage: (file: File) => void;
+
   title: string;
   titleChange: (value: string) => void;
-  url: string;
-  urlChange: (value: string) => void;
+  url: File | undefined;
+  urlChange: (value: File) => void;
   format: string;
   formatChange: (value: string) => void;
   priceRange: string;
   priceRangeChange: (value: string) => void;
+  handleSubmit: () => void;
+  handleAddNewPhoto: () => void;
+  supabase: any;
 }
 
 export const Admin = (props: IAdminProps) => {
@@ -51,8 +54,11 @@ export const Admin = (props: IAdminProps) => {
   const toggleShowAddNewPhoto = () => {
     setShowAddNewPhoto(!showAddNewPhoto);
   };
+  const toggleEditPhoto = (photoId: number) => {
+    console.log("edit photo" + photoId);
+  }
 
-  const handleGetYourOwnPhotos = () => {
+  /* const handleGetYourOwnPhotos = () => {
     if (!props.photos || props.photos.length === 0) {
       return <p>No photos available.</p>;
     }
@@ -91,7 +97,7 @@ export const Admin = (props: IAdminProps) => {
         </div>
       </div>
     ));
-  };
+  }; */
 
   return (
     <>
@@ -112,7 +118,7 @@ export const Admin = (props: IAdminProps) => {
                 </article>
 
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                  <form>
+                  <form>  
                     <div className="flex flex-wrap">
                       <article className="w-full lg:w-6/12 px-4">
                         <div className="relative w-full mb-3">
@@ -165,9 +171,9 @@ export const Admin = (props: IAdminProps) => {
             <h1 className="my-10 font-medium text-3xl sm:text-4xl">
               My photos
             </h1>
-
+            {/* 
             <div>{handleGetYourOwnPhotos()}</div>
-
+ */}
             <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
               {props.photos.map((photo) => (
                 <>
@@ -198,16 +204,19 @@ export const Admin = (props: IAdminProps) => {
                       <button
                         className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
                         type="button"
+                        onClick={() => toggleEditPhoto(photo.id)}
                       >
                         Edit
                       </button>
                     </div>
                   </div>
+                  <hr className="" />
                 </>
               ))}
+              <hr className="w-85%" />
               <div className="user-option mx-auto">
                 <button
-                  className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
+                  className="btn m-6 inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
                   type="button"
                   onClick={toggleShowAddNewPhoto}
                 >
@@ -217,7 +226,7 @@ export const Admin = (props: IAdminProps) => {
               {showAddNewPhoto && (
                 <AddNewPhoto
                   changeIsActive={props.changeIsActive}
-                  uploadImage={props.uploadImage}
+                 
                   title={props.title}
                   titleChange={props.titleChange}
                   url={props.url}
@@ -226,9 +235,11 @@ export const Admin = (props: IAdminProps) => {
                   formatChange={props.formatChange}
                   priceRange={props.priceRange}
                   priceRangeChange={props.priceRangeChange}
+                    handleSubmit={props.handleSubmit}
+                    handleAddNewPhoto={props.handleAddNewPhoto}
+                    supabase={props.supabase}
                 />
               )}
-              ;
             </div>
             <a
               className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded hover:border-2 hover:border-white  font-medium duration-300"

@@ -8,7 +8,7 @@ import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Admin } from "./pages/Admin";
-import { AddNewPhoto } from "./pages/AddNewPhoto";
+
 
 interface IRouterProps {
   photos: IPhoto[];
@@ -16,16 +16,19 @@ interface IRouterProps {
   addNewPhoto: () => void;
   changeIsActive: (id: number) => void;
   handleEmailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  uploadImage: (file: File) => void;
+ 
   getYourOwnPhotos: () => void;
   title: string;
   titleChange: (value: string) => void;
-  url: string;
-  urlChange: (value: string) => void;
+  url: File | undefined;
+  urlChange: (value: File) => void;
   format: string;
   formatChange: (value: string) => void;
   priceRange: string;
   priceRangeChange: (value: string) => void;
+  handleSubmit: () => void;
+  handleAddNewPhoto: () => void;
+  supabase: any;
 }
 
 const Router = (props: IRouterProps) =>
@@ -59,7 +62,7 @@ const Router = (props: IRouterProps) =>
               email={props.email}
               handleEmailInput={props.handleEmailInput}
               getYourOwnPhotos={props.getYourOwnPhotos}
-              uploadImage={props.uploadImage}
+        
               title={props.title}
               titleChange={props.titleChange}
               url={props.url}
@@ -68,18 +71,12 @@ const Router = (props: IRouterProps) =>
               formatChange={props.formatChange}
               priceRange={props.priceRange}
               priceRangeChange={props.priceRangeChange}
+              handleSubmit={props.handleSubmit}
+              handleAddNewPhoto={props.handleAddNewPhoto}
+              supabase={props.supabase}
             />
           ),
         },
-      /*   {
-          path: "/addnew",
-          element: (
-            <AddNewPhoto
-              changeIsActive={props.changeIsActive}
-              uploadImage={props.uploadImage}
-            />
-          ),
-        }, */
       ],
       errorElement: <NotFound />,
     },
