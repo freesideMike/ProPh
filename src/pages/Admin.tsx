@@ -2,6 +2,7 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { IPhoto } from "../models/IPhoto";
 import { useState } from "react";
 import { AddNewPhoto } from "./AddNewPhoto";
+import { Header } from "../components/Header";
 
 const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 
@@ -60,7 +61,12 @@ export const Admin = (props: IAdminProps) => {
   const toggleEditPhoto = (photoId: number) => {
     console.log("edit photo" + photoId);
   };
-
+  const doThePrintOut = () => {
+    props.photos.map(photo => {
+  console.log(photo.userId, user?.id);
+})
+  };
+  doThePrintOut();
   /* const handleGetYourOwnPhotos = () => {
     if (!props.photos || props.photos.length === 0) {
       return <p>No photos available.</p>;
@@ -104,6 +110,7 @@ export const Admin = (props: IAdminProps) => {
 
   return (
     <>
+      <Header></Header>
       {user == null ? (
         <>
           {" "}
@@ -155,7 +162,7 @@ export const Admin = (props: IAdminProps) => {
         <>
           {" "}
           {/* if logged in, show your Gallery-admin */}
-            <h1>Hej { user.email}</h1>
+          <h1>Hej {user.id}</h1>
           <button
             className="bg-gray-300 text-white active:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
             type="button"
@@ -178,52 +185,60 @@ export const Admin = (props: IAdminProps) => {
             <div>{handleGetYourOwnPhotos()}</div>
  */}
             <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
-              {props.photos.map((photo) => (
-                <>
-                  <div className="user-row flex flex-col items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]">
-                    <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
-                      <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
-                        <img
-                          className="avatar w-20 h-20"
-                          src={
-                            supabaseUrl +
-                                        "/storage/v1/object/public/photoGallery/" +
-                                        photo.userId + "/" +
-                                        photo.photoId
-                          }
-                        />
+              {props.photos
+                .filter(
+                  (photo) => "0f2d4825-b606-436c-97bb-1ccd102e8b77" === user.id
+                )
+                .map((photo) => (
+                  <>
+                    <div
+                      key={photo.photoId}
+                      className="user-row flex flex-col items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
+                    >
+                      <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
+                        <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
+                          <img
+                            className="avatar w-20 h-20"
+                            src={
+                              supabaseUrl +
+                              "/storage/v1/object/public/photoGallery/" +
+                              photo.userId +
+                              "/" +
+                              photo.photoId
+                            }
+                          />
+                        </div>
+
+                        <div className="skills flex flex-col">
+                          <span className="subtitle text-slate-500">
+                            {photo.title}
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="skills flex flex-col">
-                        <span className="subtitle text-slate-500">
-                          {photo.title}
-                        </span>
+                      <div className="user-option mx-auto sm:ml-auto sm:mr-0">
+                        <div>
+                          <input
+                            type="checkbox"
+                            checked={photo.isActive}
+                            onChange={() => {
+                              props.changeIsActive(photo.id);
+                            }}
+                          />
+                          Show
+                        </div>
+                        <button
+                          className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
+                          type="button"
+                          onClick={() => toggleEditPhoto(photo.id)}
+                        >
+                          Edit
+                        </button>
                       </div>
                     </div>
-
-                    <div className="user-option mx-auto sm:ml-auto sm:mr-0">
-                      <div>
-                        <input
-                          type="checkbox"
-                          checked={photo.isActive}
-                          onChange={() => {
-                            props.changeIsActive(photo.id);
-                          }}
-                        />
-                        Show
-                      </div>
-                      <button
-                        className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
-                        type="button"
-                        onClick={() => toggleEditPhoto(photo.id)}
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  </div>
-                  <hr className="" />
-                </>
-              ))}
+                    <hr className="" />
+                  </>
+                ))}
               <hr className="w-85%" />
               <div className="user-option mx-auto">
                 <button

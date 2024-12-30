@@ -25,11 +25,7 @@ export const Layout = () => {
       <main>
         <Outlet />
       </main>
-      <footer>
-        <p>POWERED</p>
-        <p>by</p>
-        <p>Mikael Cardaba</p>
-      </footer>
+    
     </>
   );
 };

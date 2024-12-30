@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
+import { useUser } from "@supabase/auth-helpers-react";
 
 export const Header = () => {
+  const user = useUser();
   return (
     <>
       <section className="h-16 sticky top-0 bg-slate-200 border-gray-800 z-10">
@@ -13,28 +15,28 @@ export const Header = () => {
           <ul className="flex flex-row justify-end w-full object-center">
             <li>
               <NavLink
-                to={"/"}
+                to={"/admin"}
                 className={"mx-2 lg:mx-5 font-light lg:text-2xl"}
               >
-                Log In / Admin
+                {(user) ? "Admin" : "Login"}
               </NavLink>
             </li>
             <li>
               <NavLink
-                to={"/start"}
+                to={"/"}
                 className={"mx-2 lg:mx-5 font-light lg:text-2xl"}
               >
-                Start
+                Gallery
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to={"/about"}
                 className={"mx-2 lg:mx-5 font-light lg:text-2xl"}
               >
                 About
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink
                 to={"/cart"}
