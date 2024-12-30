@@ -10,9 +10,9 @@ export const HeaderSmall = () => {
           </section>
           <section className="">
             <ul className="flex flex-row">
-              <li>Start</li>
-              <li>Gallery</li>
-              <li>Cart</li>
+              <li className="m-2">Start</li>
+              <li className="m-2">Gallery</li>
+              <li className="m-2">Cart</li>
             </ul>
           </section>
         </div>

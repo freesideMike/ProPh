@@ -119,11 +119,13 @@ export const Admin = (props: IAdminProps) => {
             <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">
               <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
                 <article className="rounded-t bg-white mb-0 px-6 py-6">
-                  <div className="text-center flex justify-between">
+                  <div className="">
                     <h6 className="text-blueGray-700 text-xl font-bold">
-                      Enter your email to get a Supabase Magick Link to be able
-                      to log in as admin
+                      Enter your email
                     </h6>
+                    <p className="text-blueGray-700 text-s">
+                      Enter email to add your own photos
+                    </p>
                   </div>
                 </article>
 
