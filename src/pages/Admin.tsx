@@ -186,7 +186,10 @@ export const Admin = (props: IAdminProps) => {
                         <img
                           className="avatar w-20 h-20"
                           src={
-                            supabaseUrl + user.id + photo.userId + photo.photoId
+                            supabaseUrl +
+                                        "/storage/v1/object/public/photoGallery/" +
+                                        photo.userId + "/" +
+                                        photo.photoId
                           }
                         />
                       </div>

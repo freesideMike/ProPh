@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
+export const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY!;
 /* const supabaseAPIKey: string = import.meta.env.VITE_SUPABASE_API_KEY!; */
 

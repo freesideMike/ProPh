@@ -2,12 +2,12 @@ import { useParams } from "react-router-dom";
 import { IPhoto } from "../models/IPhoto";
 import { HeaderSmall } from "../components/HeaderSmall";
 import { ChangeEvent, useState } from "react";
-
+import { supabaseUrl } from "../App";
 interface IOnePhotoProps {
   photos: IPhoto[];
 }
 
-export const OnePhoto = ( props: IOnePhotoProps) => {
+export const OnePhoto = (props: IOnePhotoProps) => {
   const photoId = useParams<{ id: string }>();
   const photoIdNumber = Number(photoId.id);
   const selectedPhoto = props.photos.find(
@@ -24,16 +24,19 @@ export const OnePhoto = ( props: IOnePhotoProps) => {
     // You can implement your cart logic here
   };
 
-  const [activeSize, setActiveSize] = useState<string>(selectedPhoto.versions[0].toString());
+ /*  const [activeSize, setActiveSize] = useState<string>(
+    selectedPhoto.versions[0].toString()
+  ); */
 
-  function handleActiveSize(event: ChangeEvent<HTMLSelectElement>): void {
+/*   function handleActiveSize(event: ChangeEvent<HTMLSelectElement>): void {
     setActiveSize(event.target.value);
     console.log(`Selected size: ${event.target.value}`);
   }
 
-  const handleSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => { // Step 2: Handler for size change
+  const handleSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // Step 2: Handler for size change
     setActiveSize(e.target.value);
-  };
+  }; */
 
   return (
     <>
@@ -47,7 +50,7 @@ export const OnePhoto = ( props: IOnePhotoProps) => {
             <img
               className="self-center justify-self-center w-full h-full object-contain"
               key={selectedPhoto.id}
-              src={selectedPhoto.url}
+              src={`${supabaseUrl}/storage/v1/object/public/photoGallery/${selectedPhoto.userId}/${selectedPhoto.photoId}`}
               alt={selectedPhoto.title}
             />
           </section>
@@ -55,37 +58,31 @@ export const OnePhoto = ( props: IOnePhotoProps) => {
           <div className="flex flex-row justify-start my-4 mb-12 w-full">
             <div className=" ">
               {/* skapa en input där man har bildens mått att välja på men som inte ser ut som en inputruta, bara en skrolllista */}
-              <select
-                value={(activeSize) ? activeSize : "choose your size"}
+           {/*    <select
+                value={activeSize ? activeSize : "choose your size"}
                 onChange={handleSizeChange}
                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               >
                 <option value="" disabled>
                   Select a pricerange
-                </option>
-                
-                {selectedPhoto.versions.map((version, i) => (
+                </option> */}
+
+               {/*  {selectedPhoto.versions.map((version, i) => (
                   <option key={i} value={version.toString()}>
                     {version.size} cm
-                
                   </option>
-                ))}
-
-
-              </select>
+                ))} */}
+             {/*  </select> */}
               <div className="ml-4">
-                find price here depending on the size choosen before
-              
+                choose your size
                 {/* {console.log(selectedPhoto.versions)} */}
               </div>
-           {/*      {selectedPhoto.versions? (
+              {/*      {selectedPhoto.versions? (
                   <span>{selectedPhoto.prices[activeSiize]} kr</span>
                 ) : (
                   <span>Price not available</span>
                 )} */}
-                
-            
-              
+
               {/*       <button
                 className="toggle-theme mx-2 btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-5 py-1 rounded-full text-base font-normal leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
                 type="button"
