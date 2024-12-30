@@ -9,13 +9,16 @@ import { v4 as uuidv4 } from "uuid";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createClient } from "@supabase/supabase-js";
 
- 
 const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey); 
+/* const supabaseAPIKey: string = import.meta.env.VITE_SUPABASE_API_KEY!; */
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+/* const supabaseDb = createClient(supabaseUrl, supabaseAPIKey); */
 
 const App = () => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const [email, setEmail] = useState<string>("");
   const [sizePrice, setSizePrice] = useState<IVersions[]>([]);
   /* temporary states for adding new photo */
@@ -23,17 +26,15 @@ const App = () => {
   const [url, setUrl] = useState<File>();
   const [format, setFormat] = useState("portrait");
   const [priceRange, setPriceRange] = useState("Low");
-  
+
   const user = useUser();
 
-  
   useEffect(() => {
     getAllPhotos();
   }, []);
-
-
-
-
+  
+  console.log(photos);
+  
   const titleChange = (value: string) => {
     setTitle(value);
   };
@@ -48,21 +49,66 @@ const App = () => {
     setPriceRange(value);
   };
 
+  // get photos from database into photos-state
+  const getAllPhotos = async () => {
+    const { data, error } = await supabase.from("PhotoGallery").select();
+    if (error) {
+      console.error("Error fetching photos:", error);
+    } else {
+      if (data) {
+        console.log("Photos fetched:", data);
+        setPhotos(data);
+
+        /*         getPhotosFromDb(data[0].name);
+         */
+      }
+    }
+   
+  };
+
+  const getPhotosFromDb = async (photoId: string) => {
+    const { data, error } = await supabase
+      .from("photoGallery")
+      .insert([
+        {
+          userId: user?.id,
+          photoId: photoId,
+          title: title,
+          format: format,
+          priceRange: priceRange,
+          isActive: true,
+        },
+      ])
+      .select();
+    if (error) {
+      console.error("Error fetching photos:", error);
+    } else {
+      if (data) {
+        setPhotos(data);
+        console.log("Photos fetched:", data);
+      }
+    }
+  };
 
   const handleSubmit = async () => {
     if (!url) {
       console.error("No file selected");
       return;
+      /*  }
+       const imageUrl = await uploadImage();
+   
+       if (imageUrl) {
+         await addNewPhotoInPhotoDb(title, priceRange, priceRange, imageUrl.fullPath, format, true);
+       } */
+      /*   addNewPhoto(); */
     }
-    const imageUrl = await uploadImage();
-
-    if (imageUrl) {
-      await addNewPhotoInPhotoDb(title, imageUrl.fullPath, format, priceRange);
-    }
-    /*   addNewPhoto(); */
   };
 
-  const uploadImage = async () => {
+  const handleAddNewPhoto = async () => {
+    uploadImageToBucket();
+  };
+
+  const uploadImageToBucket = async () => {
     if (!url) {
       console.error("No file selected");
       return;
@@ -77,58 +123,63 @@ const App = () => {
       console.error("Error uploading file:", error);
       return;
     } else {
-      console.log("File uploaded:", data);
-      return data;
+      addNewPhotoInPhotoDb(fileName);
+      console.log(data)
+      return;
     }
-  }
+  };
 
-  const handleAddNewPhoto = async () => {
-    uploadImage();
-  }
+  //Adds new photo to database
+  const addNewPhotoInPhotoDb = async (photoId: string) => {
+    console.log(photoId);
+    const { data, error } = await supabase
+      .from("PhotoGallery")
+      .insert([{ userId: user?.id, photoId: photoId, title: title, format: format, priceRange: priceRange, isActive: true }])
+      .select();
+    
+    if (error) {
+      console.error("Error adding new photo:", error);
 
-  const getYourOwnPhotos = async () => {
+      if (data) {
+        console.log("New photo added:", data);
+        setPhotos((prevPhotos) => [...prevPhotos, data[0]]); // Update state with new photo
+      }
+    }
+  };
+
+ /*  const getYourOwnPhotos = async () => {
     if (!user) {
       console.error("User is not logged in");
       return <h1>User is not logged in</h1>;
-    }
-    /*   const  { data, error }  = await supabase
-      .storage
-      .from("photos")
-      .list(user.id + "/", {
-        limit: 100,
-        offset: 0,
-        sortBy: { column: "changedDate", order: "asc" },
-      }); */
-    /*     if (data !== null) {
-      setPhotos(data.map(file => ({
-        id: Date.now(),
-        title: file.name,
-        url: "", // Provide a default or fetch the URL if available
-        isActive: true, // Provide a default value
-        versions:
-          getSizePrice(format, priceRange),
-        times_opened: 0,
-        times_ordered: 0,
-        created_at: Date.now(),
-        updated_at: Date.now(),
-      })));
-    } else {
-      console.log(error);
     } */
-  };
+    /*   const  { data, error }  = await supabase
+        .storage
+        .from("photos")
+        .list(user.id + "/", {
+          limit: 100,
+          offset: 0,
+          sortBy: { column: "changedDate", order: "asc" },
+        }); */
+    /*     if (data !== null) {
+        setPhotos(data.map(file => ({
+          id: Date.now(),
+          title: file.name,
+          url: "", // Provide a default or fetch the URL if available
+          isActive: true, // Provide a default value
+          versions:
+            getSizePrice(format, priceRange),
+          times_opened: 0,
+          times_ordered: 0,
+          created_at: Date.now(),
+          updated_at: Date.now(),
+        })));
+      } else {
+        console.log(error);
+      } */
+ /*  }; */
 
   const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-  };
-
-  // get photos from database into photos-state
-  const getAllPhotos = async () => {
-    const { data, error } = await supabase.from("Photos").select();
-    if (error) {
-      console.error("Error fetching photos:", error);
-    } else {
-      setPhotos(data);
-    }
   };
 
   // UPDATES THE DATABASE
@@ -145,169 +196,146 @@ const App = () => {
   };
 
   /* const getSizePrice = (format: string, priceRange: string) => {
-    /* Portrait 
-    if (format === "Portrait" && priceRange === "Low") {
-      return [
-        {
-          size: "10 x 15",
-          price: 5,
-        },
-        {
-          size: "30 x 45",
-          price: 79,
-        },
-        {
-          size: "60 x 90",
-          price: 399,
-        },
-      ];
-    } else if (format === "Portrait" && priceRange === "Medium") {
-      return [
-        {
-          size: "10 x 15",
-          price: 10,
-        },
-        {
-          size: "30 x 45",
-          price: 149,
-        },
-        {
-          size: "60 x 90",
-          price: 599,
-        },
-      ];
-    } else if (format === "Portrait" && priceRange === "High") {
-      return [
-        {
-          size: "10 x 15",
-          price: 25,
-        },
-        {
-          size: "30 x 45",
-          price: 299,
-        },
-        {
-          size: "60 x 90",
-          price: 999,
-        },
-      ];
-    } else if (format === "Landscape" && priceRange === "Low") {
-      /* Landscape 
-      return [
-        {
-          size: "15 x 10",
-          price: 5,
-        },
-        {
-          size: "45 x 30",
-          price: 79,
-        },
-        {
-          size: "90 x 60",
-          price: 399,
-        },
-      ];
-    } else if (format === "Landscape" && priceRange === "Medium") {
-      return [
-        {
-          size: "15 x 10",
-          price: 10,
-        },
-        {
-          size: "45 x 30",
-          price: 149,
-        },
-        {
-          size: "90 x 60",
-          price: 599,
-        },
-      ];
-    } else if (format === "Landscape" && priceRange === "High") {
-      return [
-        {
-          size: "15 x 10",
-          price: 25,
-        },
-        {
-          size: "45 x 30",
-          price: 299,
-        },
-        {
-          size: "90 x 60",
-          price: 999,
-        },
-      ];
-    } else if (format === "Square" && priceRange === "Low") {
-      /* Square 
-      return [
-        {
-          size: "15 x 15",
-          price: 5,
-        },
-        {
-          size: "40 x 40",
-          price: 79,
-        },
-        {
-          size: "60 x 60",
-          price: 399,
-        },
-      ];
-    } else if (format === "Square" && priceRange === "Medium") {
-      return [
-        {
-          size: "15 x 15",
-          price: 10,
-        },
-        {
-          size: "40 x 40",
-          price: 149,
-        },
-        {
-          size: "60 x 60",
-          price: 599,
-        },
-      ];
-    } else if (format === "Square" && priceRange === "High") {
-      return [
-        {
-          size: "15 x 15",
-          price: 25,
-        },
-        {
-          size: "40 x 40",
-          price: 299,
-        },
-        {
-          size: "60 x 60",
-          price: 999,
-        },
-      ];
-    }
-  }; */
-
-  //Adds new photo to database
-const addNewPhotoInPhotoDb = async (
-  title: string,
-  url: string,
-  format: string,
-  priceRange: string
-) => {
-  const { data, error } = await supabase
-    .from("Photos")
-    .insert([{ title, url, format, priceRange }]); // Adjust fields as necessary
-
-  if (error) {
-    console.error("Error adding new photo:", error);
-  } else {
-    console.log("New photo added:", data);
-    if (data) {
-      setPhotos((prevPhotos) => [...prevPhotos, data[0]]); // Update state with new photo
-    }
-  }
-};
-
- 
+      /* Portrait 
+      if (format === "Portrait" && priceRange === "Low") {
+        return [
+          {
+            size: "10 x 15",
+            price: 5,
+          },
+          {
+            size: "30 x 45",
+            price: 79,
+          },
+          {
+            size: "60 x 90",
+            price: 399,
+          },
+        ];
+      } else if (format === "Portrait" && priceRange === "Medium") {
+        return [
+          {
+            size: "10 x 15",
+            price: 10,
+          },
+          {
+            size: "30 x 45",
+            price: 149,
+          },
+          {
+            size: "60 x 90",
+            price: 599,
+          },
+        ];
+      } else if (format === "Portrait" && priceRange === "High") {
+        return [
+          {
+            size: "10 x 15",
+            price: 25,
+          },
+          {
+            size: "30 x 45",
+            price: 299,
+          },
+          {
+            size: "60 x 90",
+            price: 999,
+          },
+        ];
+      } else if (format === "Landscape" && priceRange === "Low") {
+        /* Landscape 
+        return [
+          {
+            size: "15 x 10",
+            price: 5,
+          },
+          {
+            size: "45 x 30",
+            price: 79,
+          },
+          {
+            size: "90 x 60",
+            price: 399,
+          },
+        ];
+      } else if (format === "Landscape" && priceRange === "Medium") {
+        return [
+          {
+            size: "15 x 10",
+            price: 10,
+          },
+          {
+            size: "45 x 30",
+            price: 149,
+          },
+          {
+            size: "90 x 60",
+            price: 599,
+          },
+        ];
+      } else if (format === "Landscape" && priceRange === "High") {
+        return [
+          {
+            size: "15 x 10",
+            price: 25,
+          },
+          {
+            size: "45 x 30",
+            price: 299,
+          },
+          {
+            size: "90 x 60",
+            price: 999,
+          },
+        ];
+      } else if (format === "Square" && priceRange === "Low") {
+        /* Square 
+        return [
+          {
+            size: "15 x 15",
+            price: 5,
+          },
+          {
+            size: "40 x 40",
+            price: 79,
+          },
+          {
+            size: "60 x 60",
+            price: 399,
+          },
+        ];
+      } else if (format === "Square" && priceRange === "Medium") {
+        return [
+          {
+            size: "15 x 15",
+            price: 10,
+          },
+          {
+            size: "40 x 40",
+            price: 149,
+          },
+          {
+            size: "60 x 60",
+            price: 599,
+          },
+        ];
+      } else if (format === "Square" && priceRange === "High") {
+        return [
+          {
+            size: "15 x 15",
+            price: 25,
+          },
+          {
+            size: "40 x 40",
+            price: 299,
+          },
+          {
+            size: "60 x 60",
+            price: 999,
+          },
+        ];
+      }
+    }; */
 
   // UPDATES THE STATE
   //changes if the isActive (if the photo shows up in gallery or not)
@@ -324,11 +352,8 @@ const addNewPhotoInPhotoDb = async (
   };
 
   const addNewPhoto = () => {
-    // add to state with a constructor and a spread operator . . .
-
+    // ta bort hela denna och alla props som tillhör i alla filer
     console.log("New photo added to State");
-
-    addNewPhotoInPhotoDb(title, url!.name, format, priceRange);
   };
 
   return (
@@ -340,7 +365,6 @@ const addNewPhotoInPhotoDb = async (
           addNewPhoto,
           email,
           handleEmailInput,
-          getYourOwnPhotos,
           title,
           titleChange,
           url,
@@ -352,6 +376,7 @@ const addNewPhotoInPhotoDb = async (
           handleSubmit,
           handleAddNewPhoto,
           supabase,
+          /*  getYourOwnPhotos, */
         })}
       ></RouterProvider>
     </>

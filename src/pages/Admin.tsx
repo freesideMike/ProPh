@@ -3,13 +3,14 @@ import { IPhoto } from "../models/IPhoto";
 import { useState } from "react";
 import { AddNewPhoto } from "./AddNewPhoto";
 
+const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
+
 interface IAdminProps {
   photos: IPhoto[];
   email: string;
   changeIsActive: (id: number) => void;
   handleEmailInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  getYourOwnPhotos: () => void;
-
+  /* getYourOwnPhotos: () => void; */
   title: string;
   titleChange: (value: string) => void;
   url: File | undefined;
@@ -25,11 +26,13 @@ interface IAdminProps {
 
 export const Admin = (props: IAdminProps) => {
   const user = useUser();
+/*   console.log(user); */
   const supabase = useSupabaseClient();
   console.log(props.email);
 
   const [showAddNewPhoto, setShowAddNewPhoto] = useState(false);
 
+/*   console.log(supabaseUrl + user?.id + props.photos[0].photoId); */
   // if not logged in --> go to loginpage
   //ändra detta state till ett props från photo-statet.
   const magicLinkLogin = async () => {
@@ -56,7 +59,7 @@ export const Admin = (props: IAdminProps) => {
   };
   const toggleEditPhoto = (photoId: number) => {
     console.log("edit photo" + photoId);
-  }
+  };
 
   /* const handleGetYourOwnPhotos = () => {
     if (!props.photos || props.photos.length === 0) {
@@ -82,21 +85,21 @@ export const Admin = (props: IAdminProps) => {
         <div className="user-option mx-auto sm:ml-auto sm:mr-0">
           <div>
             <input
-              type="checkbox"
-              checked={photo.isActive}
-              onChange={() => props.changeIsActive(photo.id)}
+            type="checkbox"
+            checked={photo.isActive}
+            onChange={() => props.changeIsActive(photo.id)}
             />
             Show
           </div>
           <button
             className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
             type="button"
-          >
+            >
             Edit
-          </button>
-        </div>
+            </button>
+            </div>
       </div>
-    ));
+      ));
   }; */
 
   return (
@@ -118,7 +121,7 @@ export const Admin = (props: IAdminProps) => {
                 </article>
 
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                  <form>  
+                  <form>
                     <div className="flex flex-wrap">
                       <article className="w-full lg:w-6/12 px-4">
                         <div className="relative w-full mb-3">
@@ -152,7 +155,7 @@ export const Admin = (props: IAdminProps) => {
         <>
           {" "}
           {/* if logged in, show your Gallery-admin */}
-          <h1>Hej dittAnvändarnamn</h1>
+            <h1>Hej { user.email}</h1>
           <button
             className="bg-gray-300 text-white active:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
             type="button"
@@ -180,7 +183,12 @@ export const Admin = (props: IAdminProps) => {
                   <div className="user-row flex flex-col items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]">
                     <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
                       <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
-                        <img className="avatar w-20 h-20" src={photo.url} />
+                        <img
+                          className="avatar w-20 h-20"
+                          src={
+                            supabaseUrl + user.id + photo.userId + photo.photoId
+                          }
+                        />
                       </div>
 
                       <div className="skills flex flex-col">
@@ -226,7 +234,6 @@ export const Admin = (props: IAdminProps) => {
               {showAddNewPhoto && (
                 <AddNewPhoto
                   changeIsActive={props.changeIsActive}
-                 
                   title={props.title}
                   titleChange={props.titleChange}
                   url={props.url}
@@ -235,9 +242,9 @@ export const Admin = (props: IAdminProps) => {
                   formatChange={props.formatChange}
                   priceRange={props.priceRange}
                   priceRangeChange={props.priceRangeChange}
-                    handleSubmit={props.handleSubmit}
-                    handleAddNewPhoto={props.handleAddNewPhoto}
-                    supabase={props.supabase}
+                  handleSubmit={props.handleSubmit}
+                  handleAddNewPhoto={props.handleAddNewPhoto}
+                  supabase={props.supabase}
                 />
               )}
             </div>

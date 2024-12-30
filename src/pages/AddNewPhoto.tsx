@@ -22,7 +22,7 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const user = useUser();
   console.log(props);
-  console.log(user);
+  console.log(user?.id);
   console.log(props.url);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
     }
   };
 
-/* const uploadImage = async () => {
+  /* const uploadImage = async () => {
     console.log("uploading image to storage");
     if (!props.url) {
       console.error("No file selected");
@@ -67,8 +67,6 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
       console.log(error);
     }
   }; */
-
-
 
   /* 
 

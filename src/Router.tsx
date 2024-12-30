@@ -1,6 +1,4 @@
 import { createBrowserRouter } from "react-router";
-/* import { Layout } from "./pages/Layout"; */
-
 import { IPhoto } from "./models/IPhoto";
 import { Home } from "./pages/Home";
 import { OnePhoto } from "./pages/OnePhoto";
@@ -8,16 +6,14 @@ import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Admin } from "./pages/Admin";
-
-
 interface IRouterProps {
   photos: IPhoto[];
   email: string;
   addNewPhoto: () => void;
   changeIsActive: (id: number) => void;
   handleEmailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
- 
-  getYourOwnPhotos: () => void;
+
+ /*  getYourOwnPhotos: () => void; */
   title: string;
   titleChange: (value: string) => void;
   url: File | undefined;
@@ -61,8 +57,7 @@ const Router = (props: IRouterProps) =>
               changeIsActive={props.changeIsActive}
               email={props.email}
               handleEmailInput={props.handleEmailInput}
-              getYourOwnPhotos={props.getYourOwnPhotos}
-        
+            /*   getYourOwnPhotos={props.getYourOwnPhotos} */
               title={props.title}
               titleChange={props.titleChange}
               url={props.url}
