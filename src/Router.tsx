@@ -6,6 +6,7 @@ import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Admin } from "./pages/Admin";
+import { IOrder } from "./models/IOrder";
 interface IRouterProps {
   photos: IPhoto[];
   email: string;
@@ -25,6 +26,7 @@ interface IRouterProps {
   handleSubmit: () => void;
   handleAddNewPhoto: () => void;
   supabase: any;
+  order: IOrder[];
 }
 
 const Router = (props: IRouterProps) =>
@@ -43,7 +45,7 @@ const Router = (props: IRouterProps) =>
         },
         {
           path: "/cart",
-          element: <Cart />,
+          element: <Cart order={props.order} photos={props.photos} />,
         },
         {
           path: "/login",

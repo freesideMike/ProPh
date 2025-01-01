@@ -8,6 +8,7 @@ import { IVersions } from "./models/IVersions";
 import { v4 as uuidv4 } from "uuid";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createClient } from "@supabase/supabase-js";
+import { IOrder } from "./models/IOrder";
 
 export const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY!;
@@ -20,7 +21,7 @@ const App = () => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [email, setEmail] = useState<string>("");
-  const [sizePrice, setSizePrice] = useState<IVersions[]>([]);
+ const [order, setOrder] = useState<IOrder[]>([])
   /* temporary states for adding new photo */
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState<File>();
@@ -376,6 +377,7 @@ const App = () => {
           handleSubmit,
           handleAddNewPhoto,
           supabase,
+          order,
           /*  getYourOwnPhotos, */
         })}
       ></RouterProvider>

@@ -4,11 +4,15 @@ import { HeaderSmall } from "../components/HeaderSmall";
 import { ChangeEvent, useState } from "react";
 import { supabaseUrl } from "../App";
 import { Header } from "../components/Header";
+import { getSizePrice } from "../service/getSizePrice";
 interface IOnePhotoProps {
   photos: IPhoto[];
 }
 
 export const OnePhoto = (props: IOnePhotoProps) => {
+  const [price, setPrice] = useState<number>(0);
+  const [size, setSize] = useState("");
+
   const photoId = useParams<{ id: string }>();
   const photoIdNumber = Number(photoId.id);
   const selectedPhoto = props.photos.find(
@@ -19,25 +23,31 @@ export const OnePhoto = (props: IOnePhotoProps) => {
     return <div>Photo not found</div>;
   }
 
+  const getSizePriceData = (format: string, priceRange: string) => {
+    const data = getSizePrice(format, priceRange);
+    console.log(data);
+    return data;
+  };
+
+  const handleSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const newSize = e.target.value;
+    setSize(newSize);
+    findPrice(newSize);
+  };
+
+  const findPrice = (newSize: string) => {
+    const format = selectedPhoto.format;
+    const priceRange = selectedPhoto.priceRange;
+    const data = getSizePriceData(format, priceRange);
+    const price = data?.find((response) => response.size === newSize)?.price;
+    setPrice(Number(price));
+  };
+
   const addToCart = () => {
     // Logic to add the selected photo to the cart
     console.log(`Added ${selectedPhoto.title} to cart`);
     // You can implement your cart logic here
   };
-
-  /*  const [activeSize, setActiveSize] = useState<string>(
-    selectedPhoto.versions[0].toString()
-  ); */
-
-  /*   function handleActiveSize(event: ChangeEvent<HTMLSelectElement>): void {
-    setActiveSize(event.target.value);
-    console.log(`Selected size: ${event.target.value}`);
-  }
-
-  const handleSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // Step 2: Handler for size change
-    setActiveSize(e.target.value);
-  }; */
 
   return (
     <>
@@ -75,10 +85,10 @@ export const OnePhoto = (props: IOnePhotoProps) => {
                   </option>
                 ))} */}
               {/*  </select> */}
-              <h4 className="ml-4 lg:text-lg  xl:text-2xl">
+              {/*    <h4 className="ml-4 lg:text-lg  xl:text-2xl">
                 choose your size
-                {/* {console.log(selectedPhoto.versions)} */}
-              </h4>
+                {/* {console.log(selectedPhoto.versions)} 
+              </h4> */}
               {/*      {selectedPhoto.versions? (
                   <span>{selectedPhoto.prices[activeSiize]} kr</span>
                 ) : (
@@ -118,11 +128,29 @@ export const OnePhoto = (props: IOnePhotoProps) => {
             <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
               <div className="user-body flex flex-col mb-4 sm:mb-0 sm:mr-4">
                 <div className="skills flex flex-col">
-                  <span className="subtitle text-slate-600  lg:text-lg xl:text-xl">
-                    size x size cm
-                  </span>
-                  <span className="subtitle text-slate-600 lg:text-lg xl:text-xl">
-                    Pris xxx kr
+                  <select
+                    value={size}
+                    onChange={(e) => {
+                      handleSizeChange(e);
+                    }}
+                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  >
+                    <option value="" disabled>
+                      Choose size
+                    </option>
+                    {getSizePriceData(
+                      selectedPhoto.format,
+                      selectedPhoto.priceRange
+                    )?.map((response) => (
+                      <option key={response.size} value={response.size}>
+                        {response.size}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="subtitle text-slate-600 lg:text-lg xl:text-xl my-4">
+                    {price == 0
+                      ? "Choose size to get the price"
+                      : `Price: ${price} kr`}
                   </span>
                 </div>
               </div>
@@ -142,6 +170,7 @@ export const OnePhoto = (props: IOnePhotoProps) => {
         <a
           className="show-more block m-2.5 mx-auto py-2.5 px-4 text-center text-slate-800 no-underline rounded-full hover:border-slate-500 hover:border-2 font-medium duration-300"
           href="/"
+          onClick={addToCart}
         >
           Back to Gallery
         </a>
