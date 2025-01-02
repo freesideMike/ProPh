@@ -263,7 +263,7 @@ export const Admin = (props: IAdminProps) => {
                   priceRange={props.priceRange}
                   priceRangeChange={props.priceRangeChange}
                   handleSubmit={props.handleSubmit}
-                  handleAddNewPhoto={props.handleAddNewPhoto}
+                    handleAddNewPhoto={props.handleAddNewPhoto}
                   supabase={props.supabase}
                 />
               )}

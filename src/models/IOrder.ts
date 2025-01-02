@@ -1,5 +1,6 @@
 export interface IOrder {
-	id: number;
+  id: number;
+  orderId: string;
   photoId: string;
   photoName: string
   count: number;

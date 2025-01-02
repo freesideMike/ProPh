@@ -1,10 +1,11 @@
+import { ICart } from "../models/ICart";
 import { IOrder } from "../models/IOrder";
 import { Cost } from "./Cost";
 import { Count } from "./Count";
 import { ItemText } from "./ItemText";
 
 interface IOrderLineProps {
-  orderline: IOrder;
+  cartItem: ICart;
 }
 
 export const OrderLine = (props: IOrderLineProps) => {
@@ -12,14 +13,14 @@ export const OrderLine = (props: IOrderLineProps) => {
     <>
       <article className="cartItem">
         <section>
-        <h4>{props.orderline.photoName}</h4>
+        <h4 className="m-15">{props.cartItem.photoName}</h4>
         </section>
 
         <section>
-        <p>{props.orderline.count} st</p>
-        <p>{props.orderline.size} cm</p>
-        <p>{props.orderline.price}</p>
-          <p>{(props.orderline.count * props.orderline.price).toFixed(2)}</p>
+        <p>{props.cartItem.count} st</p>
+        <p>{props.cartItem.size} cm</p>
+        <p>{props.cartItem.price}</p>
+          <p>{(props.cartItem.count * props.cartItem.price).toFixed(2)}</p>
         </section>
         <section>
           <p>-</p>

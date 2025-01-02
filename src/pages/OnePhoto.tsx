@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { IPhoto } from "../models/IPhoto";
-import { HeaderSmall } from "../components/HeaderSmall";
 import { ChangeEvent, useState } from "react";
 import { supabaseUrl } from "../App";
 import { Header } from "../components/Header";
 import { getSizePrice } from "../service/getSizePrice";
 interface IOnePhotoProps {
   photos: IPhoto[];
+  addToCart: (photoIdNumber: number, price: number, size: string) => void;
 }
 
 export const OnePhoto = (props: IOnePhotoProps) => {
@@ -28,7 +28,7 @@ export const OnePhoto = (props: IOnePhotoProps) => {
     console.log(data);
     return data;
   };
-
+  
   const handleSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newSize = e.target.value;
     setSize(newSize);
@@ -43,10 +43,13 @@ export const OnePhoto = (props: IOnePhotoProps) => {
     setPrice(Number(price));
   };
 
-  const addToCart = () => {
-    // Logic to add the selected photo to the cart
-    console.log(`Added ${selectedPhoto.title} to cart`);
-    // You can implement your cart logic here
+  const handleAddToCart = () => {
+    if (price === 0) {
+      alert("Please choose a size");
+      return;
+    }
+    props.addToCart(photoIdNumber, price, size);
+    alert("Added to cart" );
   };
 
   return (
@@ -64,6 +67,7 @@ export const OnePhoto = (props: IOnePhotoProps) => {
               key={selectedPhoto.id}
               src={`${supabaseUrl}/storage/v1/object/public/photoGallery/${selectedPhoto.userId}/${selectedPhoto.photoId}`}
               alt={selectedPhoto.title}
+              
             />
           </section>
           {/* -------- sizebuttons ------- */}
@@ -160,6 +164,7 @@ export const OnePhoto = (props: IOnePhotoProps) => {
               <button
                 className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-8 py-1.5 rounded-full text-base font-normal leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb]  hover:shadow-sm hover:shadow-violet-800 duration-300"
                 type="button"
+                onClick={handleAddToCart}
               >
                 Buy
               </button>
@@ -170,7 +175,6 @@ export const OnePhoto = (props: IOnePhotoProps) => {
         <a
           className="show-more block m-2.5 mx-auto py-2.5 px-4 text-center text-slate-800 no-underline rounded-full hover:border-slate-500 hover:border-2 font-medium duration-300"
           href="/"
-          onClick={addToCart}
         >
           Back to Gallery
         </a>

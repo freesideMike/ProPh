@@ -4,33 +4,31 @@ import { Header } from "../components/Header";
 import { IOrder } from "../models/IOrder";
 import { IPhoto } from "../models/IPhoto";
 import { OrderLine } from "../components/OrderLine";
+import { ICart } from "../models/ICart";
 
 interface ICartProps {
   order: IOrder[];
   photos: IPhoto[];
+  cart: ICart[];
 }
 
 
 export const Cart = (props: ICartProps) => {
 
-  function orderline(value: IOrder, index: number, array: IOrder[]): unknown {
-    throw new Error("Function not impleme</div>nted.");
-  }
 
   return (
     <>
       <Header></Header>
-      <h1>Cart</h1>
+      <h1>Cart {props.cart.length}</h1>
       <article>
         <section>
-          {props.order.map((orderline) => 
-            props.photos.map(photo => 
-              photo.photoId === orderline.photoId && (
-                <OrderLine key={orderline.photoId} orderline={orderline} />
-              )
-            )
-          )}
+          {props.cart.map((cartItem) =>
+            <OrderLine key={cartItem.photoId} cartItem={cartItem} />
+          )
+          }
         </section>
+        <div>
+        </div>
       </article>
       <Footer></Footer>
     </>

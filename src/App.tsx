@@ -9,6 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createClient } from "@supabase/supabase-js";
 import { IOrder } from "./models/IOrder";
+import { InferCreationAttributes } from "sequelize";
+import { ICart } from "./models/ICart";
 
 export const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY!;
@@ -21,21 +23,22 @@ const App = () => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [email, setEmail] = useState<string>("");
- const [order, setOrder] = useState<IOrder[]>([])
+  const [order, setOrder] = useState<IOrder[]>([]);
   /* temporary states for adding new photo */
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState<File>();
   const [format, setFormat] = useState("portrait");
   const [priceRange, setPriceRange] = useState("Low");
-
+  const [cart, setCart] = useState<ICart[]>([]);
   const user = useUser();
-
   useEffect(() => {
     getAllPhotos();
   }, []);
-  
+
   console.log(photos);
-  
+  console.log(cart);
+  console.log(cart.length);
+
   const titleChange = (value: string) => {
     setTitle(value);
   };
@@ -64,23 +67,24 @@ const App = () => {
          */
       }
     }
-   
   };
 
   const getPhotosFromDb = async (photoId: string) => {
+    const currentPhoto = photos.find((photo) => photo.photoId === photoId);
     const { data, error } = await supabase
       .from("photoGallery")
       .insert([
         {
           userId: user?.id,
           photoId: photoId,
-          title: title,
+          photoName: currentPhoto?.title,
           format: format,
           priceRange: priceRange,
           isActive: true,
         },
       ])
       .select();
+    console.log(currentPhoto?.title);
     if (error) {
       console.error("Error fetching photos:", error);
     } else {
@@ -125,7 +129,7 @@ const App = () => {
       return;
     } else {
       addNewPhotoInPhotoDb(fileName);
-      console.log(data)
+      console.log(data);
       return;
     }
   };
@@ -135,9 +139,18 @@ const App = () => {
     console.log(photoId);
     const { data, error } = await supabase
       .from("PhotoGallery")
-      .insert([{ userId: user?.id, photoId: photoId, title: title, format: format, priceRange: priceRange, isActive: true }])
+      .insert([
+        {
+          userId: user?.id,
+          photoId: photoId,
+          title: title,
+          format: format,
+          priceRange: priceRange,
+          isActive: true,
+        },
+      ])
       .select();
-    
+
     if (error) {
       console.error("Error adding new photo:", error);
 
@@ -148,12 +161,74 @@ const App = () => {
     }
   };
 
- /*  const getYourOwnPhotos = async () => {
+  /*  const addToCart = async (photoId: number, price: number, size: string) => {
+    // Check if the photo is already in the cart
+    const existingPhoto = cart.find((orderline) => orderline.photoId === photoId);
+    if (existingPhoto) {
+      const newCartItem: ICart = existingPhoto.map(line)  {
+    
+        }
+        return photo;
+      };
+      setCart(updatedCart);
+     
+     }; */
+  const addToCart = (photoId: number, price: number, size: string) => {
+    // Check if the item already exists in the cart
+    const existingItem = cart.find(
+      (item) => item.photoId == photoId && item.size === size
+    );
+
+    if (existingItem) {
+      // If the item exists, update its quantity
+      const updatedCart = cart.map((item) =>
+        item.photoId === photoId && item.size === size
+          ? { ...item, count: item.count + 1 }
+          : item
+      );
+      setCart(updatedCart);
+    } else {
+      // If the item doesn't exist, add it to the cart
+      const newItem: ICart = {
+        id: Date.now(),
+        photoId,
+        photoName: title, // Replace with actual photo name
+        count: 1,
+        size,
+        price,
+      };
+      setCart([...cart, newItem]);
+    }
+  };
+
+  /* 
+  const addOrderToDb const { data, error } = await supabase
+      .from("Order")
+      .insert([
+        {
+          photoId: photoId,
+          photoName: title,
+          count: 1,
+          size: size,
+          price: price,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.log("Error adding to cart:", error);
+    }
+    if (data) {
+      setOrder((prevOrder) => [...prevOrder, data[0]]);
+    }
+ */
+
+  /*  const getYourOwnPhotos = async () => {
     if (!user) {
       console.error("User is not logged in");
       return <h1>User is not logged in</h1>;
     } */
-    /*   const  { data, error }  = await supabase
+  /*   const  { data, error }  = await supabase
         .storage
         .from("photos")
         .list(user.id + "/", {
@@ -161,7 +236,7 @@ const App = () => {
           offset: 0,
           sortBy: { column: "changedDate", order: "asc" },
         }); */
-    /*     if (data !== null) {
+  /*     if (data !== null) {
         setPhotos(data.map(file => ({
           id: Date.now(),
           title: file.name,
@@ -177,7 +252,7 @@ const App = () => {
       } else {
         console.log(error);
       } */
- /*  }; */
+  /*  }; */
 
   const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -376,7 +451,9 @@ const App = () => {
           priceRangeChange,
           handleSubmit,
           handleAddNewPhoto,
+          addToCart,
           supabase,
+          cart,
           order,
           /*  getYourOwnPhotos, */
         })}

@@ -7,6 +7,7 @@ import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Admin } from "./pages/Admin";
 import { IOrder } from "./models/IOrder";
+import { ICart } from "./models/ICart";
 interface IRouterProps {
   photos: IPhoto[];
   email: string;
@@ -14,7 +15,7 @@ interface IRouterProps {
   changeIsActive: (id: number) => void;
   handleEmailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
- /*  getYourOwnPhotos: () => void; */
+  /*  getYourOwnPhotos: () => void; */
   title: string;
   titleChange: (value: string) => void;
   url: File | undefined;
@@ -25,7 +26,9 @@ interface IRouterProps {
   priceRangeChange: (value: string) => void;
   handleSubmit: () => void;
   handleAddNewPhoto: () => void;
+  addToCart: (photoIdNumber: number, price: number, size: string) => void;
   supabase: any;
+  cart: ICart[];
   order: IOrder[];
 }
 
@@ -41,11 +44,13 @@ const Router = (props: IRouterProps) =>
         },
         {
           path: "/onephoto/:id",
-          element: <OnePhoto photos={props.photos} />,
+          element: (
+            <OnePhoto photos={props.photos} addToCart={props.addToCart} />
+          ),
         },
         {
           path: "/cart",
-          element: <Cart order={props.order} photos={props.photos} />,
+          element: <Cart order={props.order} photos={props.photos} cart={props.cart} />,
         },
         {
           path: "/login",
@@ -59,7 +64,7 @@ const Router = (props: IRouterProps) =>
               changeIsActive={props.changeIsActive}
               email={props.email}
               handleEmailInput={props.handleEmailInput}
-            /*   getYourOwnPhotos={props.getYourOwnPhotos} */
+              /*   getYourOwnPhotos={props.getYourOwnPhotos} */
               title={props.title}
               titleChange={props.titleChange}
               url={props.url}
