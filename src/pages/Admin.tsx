@@ -27,13 +27,13 @@ interface IAdminProps {
 
 export const Admin = (props: IAdminProps) => {
   const user = useUser();
-/*   console.log(user); */
+  /*   console.log(user); */
   const supabase = useSupabaseClient();
   console.log(props.email);
 
   const [showAddNewPhoto, setShowAddNewPhoto] = useState(false);
 
-/*   console.log(supabaseUrl + user?.id + props.photos[0].photoId); */
+  /*   console.log(supabaseUrl + user?.id + props.photos[0].photoId); */
   // if not logged in --> go to loginpage
   //ändra detta state till ett props från photo-statet.
   const magicLinkLogin = async () => {
@@ -62,9 +62,9 @@ export const Admin = (props: IAdminProps) => {
     console.log("edit photo" + photoId);
   };
   const doThePrintOut = () => {
-    props.photos.map(photo => {
-  console.log(photo.userId, user?.id);
-})
+    props.photos.map((photo) => {
+      console.log(photo.userId, user?.id);
+    });
   };
   doThePrintOut();
   /* const handleGetYourOwnPhotos = () => {
@@ -164,7 +164,8 @@ export const Admin = (props: IAdminProps) => {
         <>
           {" "}
           {/* if logged in, show your Gallery-admin */}
-          <h1>Hej {user.id}</h1>
+            <h1>Hej {user.email}</h1>
+            <h1>hej {props.email}</h1>
           <button
             className="bg-gray-300 text-white active:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
             type="button"
@@ -172,24 +173,15 @@ export const Admin = (props: IAdminProps) => {
           >
             logout
           </button>
-          {/* visa alla bilder som en lista
-        använd samma som för visa ett foto.
-        liten bild, titel, active as checkbox, addButton for update 
-        klicka på update för att ändra
-        klicka på checkbox för att bilden skall visas i galleri eller inte 
-        update kanske kan öppnas mitt i listan?    
-        */}
           <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-200">
             <h1 className="my-10 font-medium text-3xl sm:text-4xl">
               My photos
             </h1>
-            {/* 
-            <div>{handleGetYourOwnPhotos()}</div>
- */}
+
             <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
               {props.photos
                 .filter(
-                  (photo) => "0f2d4825-b606-436c-97bb-1ccd102e8b77" === user.id
+                  (photo) => user.id === photo.userId
                 )
                 .map((photo) => (
                   <>
@@ -263,7 +255,7 @@ export const Admin = (props: IAdminProps) => {
                   priceRange={props.priceRange}
                   priceRangeChange={props.priceRangeChange}
                   handleSubmit={props.handleSubmit}
-                    handleAddNewPhoto={props.handleAddNewPhoto}
+                  handleAddNewPhoto={props.handleAddNewPhoto}
                   supabase={props.supabase}
                 />
               )}
