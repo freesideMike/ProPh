@@ -3,6 +3,7 @@ import { IPhoto } from "../models/IPhoto";
 import { useState } from "react";
 import { AddNewPhoto } from "./AddNewPhoto";
 import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 
 const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 
@@ -110,12 +111,14 @@ export const Admin = (props: IAdminProps) => {
 
   return (
     <>
-      <Header></Header>
+     
+        <Header></Header>
+    
       {user == null ? (
         <>
           {" "}
           {/* if not logged in, show login-field */}
-          <section className=" py-1 bg-blueGray-50">
+          <section className=" py-1 bg-white">
             <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">
               <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
                 <article className="rounded-t bg-white mb-0 px-6 py-6">
@@ -164,9 +167,7 @@ export const Admin = (props: IAdminProps) => {
         <>
           {" "}
           {/* if logged in, show your Gallery-admin */}
-          <h1>Hej {user.email}</h1>
-          <h1>hej {props.email}</h1>
-          <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-200">
+          <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-50">
             <h1 className="my-10 font-medium text-3xl sm:text-4xl">
               My photos
             </h1>
@@ -271,6 +272,7 @@ export const Admin = (props: IAdminProps) => {
           </div>
         </>
       )}
+      <Footer></Footer>
     </>
   );
 };

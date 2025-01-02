@@ -2,12 +2,17 @@ import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
 import { useUser } from "@supabase/auth-helpers-react";
 
+interface IHeaderProps {
+activePage: string;
+}
+
 export const Header = () => {
   const user = useUser();
+  
   return (
     <>
-      <section className="h-16 sticky top-0 bg-slate-200 border-gray-800 z-10">
-        <article className="flex justify-between w-full">
+      <section className="h-16 sticky top-0  bg-slate-200 border-gray-300 z-10 border-b-2">
+        <article className="flex justify-between w-full ">
           <section className="object-center">
             <Logo></Logo>
           </section>
@@ -16,9 +21,9 @@ export const Header = () => {
             <li>
               <NavLink
                 to={"/admin"}
-                className={"mx-2 lg:mx-5 font-light lg:text-2xl"}
+                className={"mx-2 lg:mx-5 font-light lg:text-2xl "}
               >
-                {(user) ? "Admin" : "Login"}
+                {user ? "Admin" : "Login"}
               </NavLink>
             </li>
             <li>
@@ -48,6 +53,7 @@ export const Header = () => {
           </ul>
         </article>
       </section>
+    
     </>
   );
 };
