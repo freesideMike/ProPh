@@ -4,12 +4,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 /* import { createClient } from "@supabase/supabase-js"; */
 import router from "./Router";
 import { IPhoto } from "./models/IPhoto";
-import { IVersions } from "./models/IVersions";
+
 import { v4 as uuidv4 } from "uuid";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useUser } from "@supabase/auth-helpers-react";
 import { createClient } from "@supabase/supabase-js";
 import { IOrder } from "./models/IOrder";
-import { InferCreationAttributes } from "sequelize";
 import { ICart } from "./models/ICart";
 
 export const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
@@ -201,7 +200,30 @@ const App = () => {
     }
   };
 
-  /* 
+  const createOrder = async () => {
+    const newOrder = cart.map((item) => ({
+      photoId: item.photoId,
+      photoName: item.photoName,
+      count: item.count,
+      size: item.size,
+      price: item.price,
+    }));
+
+    const { data, error } = await supabase
+      .from("Order")
+      .insert(newOrder)
+      .select();
+
+    if (error) {
+      console.error("Error creating order:", error);
+    } else {
+      if (data) {
+        console.log("Order created:", data);
+        setOrder(data);
+      }
+    }
+  };
+    /* 
   const addOrderToDb const { data, error } = await supabase
       .from("Order")
       .insert([
@@ -223,12 +245,12 @@ const App = () => {
     }
  */
 
-  /*  const getYourOwnPhotos = async () => {
+    /*  const getYourOwnPhotos = async () => {
     if (!user) {
       console.error("User is not logged in");
       return <h1>User is not logged in</h1>;
     } */
-  /*   const  { data, error }  = await supabase
+    /*   const  { data, error }  = await supabase
         .storage
         .from("photos")
         .list(user.id + "/", {
@@ -236,7 +258,7 @@ const App = () => {
           offset: 0,
           sortBy: { column: "changedDate", order: "asc" },
         }); */
-  /*     if (data !== null) {
+    /*     if (data !== null) {
         setPhotos(data.map(file => ({
           id: Date.now(),
           title: file.name,
@@ -252,26 +274,26 @@ const App = () => {
       } else {
         console.log(error);
       } */
-  /*  }; */
+    /*  }; */
 
-  const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+    const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value);
+    };
 
-  // UPDATES THE DATABASE
-  const updateIsActiveInPhotoDb = async (id: number, isActive: boolean) => {
-    const { data, error } = await supabase
-      .from("Photos")
-      .update({ isActive })
-      .eq("id", id);
-    if (error) {
-      console.error("Error updating photo:", error);
-    } else {
-      console.log("Photo updated:", data);
-    }
-  };
+    // UPDATES THE DATABASE
+    const updateIsActiveInPhotoDb = async (id: number, isActive: boolean) => {
+      const { data, error } = await supabase
+        .from("Photos")
+        .update({ isActive })
+        .eq("id", id);
+      if (error) {
+        console.error("Error updating photo:", error);
+      } else {
+        console.log("Photo updated:", data);
+      }
+    };
 
-  /* const getSizePrice = (format: string, priceRange: string) => {
+    /* const getSizePrice = (format: string, priceRange: string) => {
       /* Portrait 
       if (format === "Portrait" && priceRange === "Low") {
         return [
@@ -413,52 +435,55 @@ const App = () => {
       }
     }; */
 
-  // UPDATES THE STATE
-  //changes if the isActive (if the photo shows up in gallery or not)
-  const changeIsActive = (id: number) => {
-    const newPhotos = photos.map((photo) =>
-      photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
+    // UPDATES THE STATE
+    //changes if the isActive (if the photo shows up in gallery or not)
+    const changeIsActive = (id: number) => {
+      const newPhotos = photos.map((photo) =>
+        photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
+      );
+
+      setPhotos(newPhotos);
+      const updatedPhoto = newPhotos.find((photo) => photo.id === id);
+      if (updatedPhoto) {
+        updateIsActiveInPhotoDb(id, updatedPhoto.isActive);
+      }
+    };
+
+    const addNewPhoto = () => {
+      // ta bort hela denna och alla props som tillhör i alla filer
+      console.log("New photo added to State");
+    };
+
+    return (
+      <>
+        <RouterProvider
+          router={router({
+            photos,
+            changeIsActive,
+            addNewPhoto,
+            email,
+            handleEmailInput,
+            title,
+            titleChange,
+            url,
+            urlChange,
+            format,
+            formatChange,
+            priceRange,
+            priceRangeChange,
+            handleSubmit,
+            handleAddNewPhoto,
+            addToCart,
+            supabase,
+            cart,
+            createOrder,
+            order,
+          })}
+        ></RouterProvider>
+      </>
     );
 
-    setPhotos(newPhotos);
-    const updatedPhoto = newPhotos.find((photo) => photo.id === id);
-    if (updatedPhoto) {
-      updateIsActiveInPhotoDb(id, updatedPhoto.isActive);
-    }
-  };
 
-  const addNewPhoto = () => {
-    // ta bort hela denna och alla props som tillhör i alla filer
-    console.log("New photo added to State");
-  };
-
-  return (
-    <>
-      <RouterProvider
-        router={router({
-          photos,
-          changeIsActive,
-          addNewPhoto,
-          email,
-          handleEmailInput,
-          title,
-          titleChange,
-          url,
-          urlChange,
-          format,
-          formatChange,
-          priceRange,
-          priceRangeChange,
-          handleSubmit,
-          handleAddNewPhoto,
-          addToCart,
-          supabase,
-          cart,
-          order,
-          /*  getYourOwnPhotos, */
-        })}
-      ></RouterProvider>
-    </>
-  );
+  
 };
 export default App;
