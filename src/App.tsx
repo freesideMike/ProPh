@@ -32,6 +32,7 @@ const App = () => {
   const user = useUser();
   useEffect(() => {
     getAllPhotos();
+    localStorage.getItem("cart") && setCart(JSON.parse(localStorage.getItem("cart")!));
   }, []);
 
   console.log(photos);
@@ -216,12 +217,20 @@ const App = () => {
   };
 
   const subtractCount = (photoId: number, size: string) => {
+    if (cart.find((item) => item.photoId === photoId && item.size === size)?.count === 1) {
+      const updatedCart = cart.filter((item) => item.photoId !== photoId || item.size !== size);
+      setCart(updatedCart);
+      saveCartToLocalStorage(updatedCart);
+      return;
+    }
+
     const updatedCart = cart.map((item) =>
       item.photoId === photoId && item.size === size
         ? { ...item, count: item.count - 1 }
         : item
     );
     setCart(updatedCart);
+    saveCartToLocalStorage(updatedCart);
   };
 
   const createOrder = async () => {

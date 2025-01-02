@@ -28,7 +28,6 @@ export const Cart = (props: ICartProps) => {
           <h1 className="my-10 font-medium text-3xl sm:text-4xl">My cart</h1>
           <div className="flex flex-row items-center justify-center"></div>
           <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
-            
             <div
               className="user-row flex flex-col items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-col
        sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
@@ -45,8 +44,8 @@ export const Cart = (props: ICartProps) => {
               ))}
             </div>
             <div className="flex flex-row items-center justify-between p-6 ml-60">
-              <span>TOTAL: </span>
-              <span>{total} kr </span>
+              <span className="text-2xl">TOTAL: </span>
+              <span className="text-2xl mr-4">{total} kr </span>
             </div>
           </div>{" "}
         </div>

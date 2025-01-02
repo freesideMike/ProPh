@@ -83,10 +83,10 @@ export const OrderLine = (props: IOrderLineProps) => {
           {/* price */}
           <div className="align-middle flex flex-row w-full justify-between m-2 ml-8">
             <span>
-              <p>á {props.cartItem.price} kr</p>
+              <p> {props.cartItem.price} kr</p>
             </span>
             <span className="justify-self-end">
-              <p>sa: {props.cartItem.price * props.cartItem.count} kr</p>
+              <p>sum: {props.cartItem.price * props.cartItem.count} kr</p>
             </span>
           </div>
         </div>
