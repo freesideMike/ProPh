@@ -164,25 +164,27 @@ export const Admin = (props: IAdminProps) => {
         <>
           {" "}
           {/* if logged in, show your Gallery-admin */}
-            <h1>Hej {user.email}</h1>
-            <h1>hej {props.email}</h1>
-          <button
-            className="bg-gray-300 text-white active:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-            type="button"
-            onClick={logOut}
-          >
-            logout
-          </button>
+          <h1>Hej {user.email}</h1>
+          <h1>hej {props.email}</h1>
           <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-200">
             <h1 className="my-10 font-medium text-3xl sm:text-4xl">
               My photos
             </h1>
+            <div className="flex flex-row items-center justify-center">
+              <h1 className="p-6">{user.email}</h1>
+
+              <button
+                className="bg-gray-300 text-[#6911e7] active:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md border-2 border-white focus:outline-none mr-1 ease-linear transition-all duration-150"
+                type="button"
+                onClick={logOut}
+              >
+                logout
+              </button>
+            </div>
 
             <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
               {props.photos
-                .filter(
-                  (photo) => user.id === photo.userId
-                )
+                .filter((photo) => user.id === photo.userId)
                 .map((photo) => (
                   <>
                     <div
