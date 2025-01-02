@@ -14,7 +14,7 @@ export const Home = (props: IHomeProps) => {
   return (
     <>
       <section className=" bg-slate-50">
-        <Header activePage={activePage}></Header>
+        <Header></Header>
         <article className="flex flex-wrap w-90% ">
           {props.photos.map(
             (photo) =>

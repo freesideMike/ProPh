@@ -186,6 +186,7 @@ const App = () => {
           : item
       );
       setCart(updatedCart);
+      saveCartToLocalStorage(updatedCart);
     } else {
       // If the item doesn't exist, add it to the cart
       const newItem: ICart = {
@@ -197,7 +198,30 @@ const App = () => {
         price,
       };
       setCart([...cart, newItem]);
-    }
+      saveCartToLocalStorage([...cart, newItem]); }
+  };
+
+
+  const saveCartToLocalStorage = (cart: ICart[]) => {
+  
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  const addCount = (photoId: number, size: string) => {
+    const updatedCart = cart.map((item) =>
+      item.photoId === photoId && item.size === size
+        ? { ...item, count: item.count + 1 }
+        : item
+    );
+    setCart(updatedCart);
+  };
+
+  const subtractCount = (photoId: number, size: string) => {
+    const updatedCart = cart.map((item) =>
+      item.photoId === photoId && item.size === size
+        ? { ...item, count: item.count - 1 }
+        : item
+    );
+    setCart(updatedCart);
   };
 
   const createOrder = async () => {
@@ -223,7 +247,7 @@ const App = () => {
       }
     }
   };
-    /* 
+  /* 
   const addOrderToDb const { data, error } = await supabase
       .from("Order")
       .insert([
@@ -245,12 +269,12 @@ const App = () => {
     }
  */
 
-    /*  const getYourOwnPhotos = async () => {
+  /*  const getYourOwnPhotos = async () => {
     if (!user) {
       console.error("User is not logged in");
       return <h1>User is not logged in</h1>;
     } */
-    /*   const  { data, error }  = await supabase
+  /*   const  { data, error }  = await supabase
         .storage
         .from("photos")
         .list(user.id + "/", {
@@ -258,7 +282,7 @@ const App = () => {
           offset: 0,
           sortBy: { column: "changedDate", order: "asc" },
         }); */
-    /*     if (data !== null) {
+  /*     if (data !== null) {
         setPhotos(data.map(file => ({
           id: Date.now(),
           title: file.name,
@@ -274,26 +298,26 @@ const App = () => {
       } else {
         console.log(error);
       } */
-    /*  }; */
+  /*  }; */
 
-    const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.target.value);
-    };
+  const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
-    // UPDATES THE DATABASE
-    const updateIsActiveInPhotoDb = async (id: number, isActive: boolean) => {
-      const { data, error } = await supabase
-        .from("Photos")
-        .update({ isActive })
-        .eq("id", id);
-      if (error) {
-        console.error("Error updating photo:", error);
-      } else {
-        console.log("Photo updated:", data);
-      }
-    };
+  // UPDATES THE DATABASE
+  const updateIsActiveInPhotoDb = async (id: number, isActive: boolean) => {
+    const { data, error } = await supabase
+      .from("Photos")
+      .update({ isActive })
+      .eq("id", id);
+    if (error) {
+      console.error("Error updating photo:", error);
+    } else {
+      console.log("Photo updated:", data);
+    }
+  };
 
-    /* const getSizePrice = (format: string, priceRange: string) => {
+  /* const getSizePrice = (format: string, priceRange: string) => {
       /* Portrait 
       if (format === "Portrait" && priceRange === "Low") {
         return [
@@ -435,55 +459,54 @@ const App = () => {
       }
     }; */
 
-    // UPDATES THE STATE
-    //changes if the isActive (if the photo shows up in gallery or not)
-    const changeIsActive = (id: number) => {
-      const newPhotos = photos.map((photo) =>
-        photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
-      );
-
-      setPhotos(newPhotos);
-      const updatedPhoto = newPhotos.find((photo) => photo.id === id);
-      if (updatedPhoto) {
-        updateIsActiveInPhotoDb(id, updatedPhoto.isActive);
-      }
-    };
-
-    const addNewPhoto = () => {
-      // ta bort hela denna och alla props som tillhör i alla filer
-      console.log("New photo added to State");
-    };
-
-    return (
-      <>
-        <RouterProvider
-          router={router({
-            photos,
-            changeIsActive,
-            addNewPhoto,
-            email,
-            handleEmailInput,
-            title,
-            titleChange,
-            url,
-            urlChange,
-            format,
-            formatChange,
-            priceRange,
-            priceRangeChange,
-            handleSubmit,
-            handleAddNewPhoto,
-            addToCart,
-            supabase,
-            cart,
-            createOrder,
-            order,
-          })}
-        ></RouterProvider>
-      </>
+  // UPDATES THE STATE
+  //changes if the isActive (if the photo shows up in gallery or not)
+  const changeIsActive = (id: number) => {
+    const newPhotos = photos.map((photo) =>
+      photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
     );
 
+    setPhotos(newPhotos);
+    const updatedPhoto = newPhotos.find((photo) => photo.id === id);
+    if (updatedPhoto) {
+      updateIsActiveInPhotoDb(id, updatedPhoto.isActive);
+    }
+  };
 
-  
+  const addNewPhoto = () => {
+    // ta bort hela denna och alla props som tillhör i alla filer
+    console.log("New photo added to State");
+  };
+
+  return (
+    <>
+      <RouterProvider
+        router={router({
+          photos,
+          changeIsActive,
+          addNewPhoto,
+          email,
+          handleEmailInput,
+          title,
+          titleChange,
+          url,
+          urlChange,
+          format,
+          formatChange,
+          priceRange,
+          priceRangeChange,
+          handleSubmit,
+          handleAddNewPhoto,
+          addToCart,
+          supabase,
+          cart,
+          createOrder,
+          addCount,
+          subtractCount,
+          order,
+        })}
+      ></RouterProvider>
+    </>
+  );
 };
 export default App;

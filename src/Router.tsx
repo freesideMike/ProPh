@@ -30,6 +30,8 @@ interface IRouterProps {
   supabase: any;
   cart: ICart[];
   createOrder: () => void;
+  addCount: (photoId: number, size: string) => void;
+  subtractCount: (photoId: number, size: string) => void;
   order: IOrder[];
 }
 
@@ -51,7 +53,7 @@ const Router = (props: IRouterProps) =>
         },
         {
           path: "/cart",
-          element: <Cart order={props.order} photos={props.photos} cart={props.cart} createOrder={props.createOrder} />,
+          element: <Cart order={props.order} photos={props.photos} cart={props.cart} createOrder={props.createOrder} addCount={props.addCount} subtractCount={props.subtractCount} />,
         },
         {
           path: "/login",

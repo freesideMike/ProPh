@@ -10,6 +10,8 @@ interface ICartProps {
   photos: IPhoto[];
   cart: ICart[];
   createOrder: () => void;
+  addCount: (photoId: number, size: string) => void;
+  subtractCount: (photoId: number, size: string) => void;
 }
 
 export const Cart = (props: ICartProps) => {
@@ -36,6 +38,8 @@ export const Cart = (props: ICartProps) => {
                   key={cartItem.photoId}
                   cartItem={cartItem}
                   photos={props.photos}
+                  addCount={props.addCount}
+                  subtractCount={props.subtractCount}
                   createOrder={props.createOrder}
                 />
               ))}
