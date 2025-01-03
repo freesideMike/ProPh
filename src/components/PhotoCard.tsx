@@ -9,22 +9,8 @@ interface IPhotoCardProps {
 export const PhotoCard = (props: IPhotoCardProps) => {
   const navigate = useNavigate();
 
-  /*  try to make this notFoundImage in another way or maybe make it not show at all when no image could be found.
-  
-  const errorImgSrc = (ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    ev.currentTarget.src = "/notFound.png"; */
-  console.log(
-    supabaseUrl +
-      "/storage/v1/object/public/photoGallery/" +
-      props.photo.userId +
-      "/" +
-      props.photo.photoId
-  );
-  
   const random: number = (Math.random()*6)-3;
-  console.log(random);
-
-
+ 
   return (
     <>
       <article
@@ -44,7 +30,7 @@ export const PhotoCard = (props: IPhotoCardProps) => {
         props.photo.photoId
           }
           alt={props.photo.title}
-          className="aspect-square object-cover object-center border-"
+          className="aspect-square object-cover object-center"
         />
       </article>
     </>

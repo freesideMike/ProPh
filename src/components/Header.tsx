@@ -11,13 +11,15 @@ export const Header = () => {
   
   return (
     <>
-      <section className="h-16 sticky top-0  bg-slate-200 border-gray-300 z-10 border-b-2">
-        <article className="flex justify-between w-full ">
+      <section className="h-16 sticky top-0  bg-slate-200 lg:bg-white border-[#6911e7] lgz-10 border-b-2">
+        <article className="flex justify-between lg:flex-col lg:w-28 lg:mr-60 w-full ">
           <section className="object-center">
             <Logo></Logo>
           </section>
 
-          <ul className="flex flex-row justify-end w-full object-center">
+            <h1 className="hidden md:inline ml-10 m-auto text-xl font-bold lg:text-4xl">ProPhotography</h1>
+
+          <ul className="flex flex-row lg:flex-col  lg:mr-60 justify-end w-full object-center">
             <li>
               <NavLink
                 to={"/admin"}
@@ -53,7 +55,6 @@ export const Header = () => {
           </ul>
         </article>
       </section>
-    
     </>
   );
 };

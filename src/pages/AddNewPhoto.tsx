@@ -14,6 +14,7 @@ interface IAddNewPhotoProps {
   priceRange: string;
   priceRangeChange: (value: string) => void;
   handleSubmit: () => void;
+  toggleShowAddNewPhoto: () => void;
   handleAddNewPhoto: () => void;
   supabase: any;
 }
@@ -21,11 +22,10 @@ interface IAddNewPhotoProps {
 export const AddNewPhoto = (props: IAddNewPhotoProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const user = useUser();
-  console.log(props);
-  console.log(user?.id);
-  console.log(props.url);
+ 
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("testar om handleTitleChange funkar");
     props.titleChange(String(e.target.value));
   };
   const handleUrlChange = (file: File) => {
@@ -45,96 +45,21 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
     }
   };
 
-  /* const uploadImage = async () => {
-    console.log("uploading image to storage");
-    if (!props.url) {
-      console.error("No file selected");
-      return;
-    }
+  const handleUploadClick = async () => {
+    props.handleAddNewPhoto();
+    props.toggleShowAddNewPhoto()
+   /*  alert(`A new photo added to gallery`); */
 
-    const { data, error } = await props.supabase.storage
-      .from("photos") // the supabase bucket name
-      .upload(user?.id + "/" + uuidv4(), props.url); // the unique user/filename, and the file
-    console.log(user?.id);
-    console.log(uuidv4());
-    console.log(props.url);
+    };
+    
+  
 
-    if (data) {
-      // getAllPhotos();
-      console.log("Image uploaded:", data);
-      return data;
-    } else {
-      console.log(error);
-    }
-  }; */
 
-  /* 
-
-    smallMeasurements = "10 x 15 cm";
-        mediumMeasurements = "30 x 45 cm";
-        largeMeasurements = "60 x 90 cm";
-        smallPrice = "5 kr";
-        mediumPrice = "79 kr";
-        largePrice = "399 kr";
-      } else if (format === "Landscape") {
-        smallMeasurements = "15 x 10 cm";
-        mediumMeasurements = "45 x 30 cm";
-        largeMeasurements = "90 x 60 cm";
-        smallPrice = "5 kr";
-        mediumPrice = "79 kr";
-        largePrice = "399 kr";
-      } else if (format === "Square") {
-        smallMeasurements = "15 x 15 cm";
-        mediumMeasurements = "45 x 45 cm";
-        largeMeasurements = "60 x 60 cm";
-        smallPrice = "10 kr";
-        mediumPrice = "89 kr";
-        largePrice = "299 kr";
-      } else {
-        smallMeasurements = "";
-        mediumMeasurements = "";
-        largeMeasurements = "";
-        smallPrice = "";
-        mediumPrice = "";
-        largePrice = "";
-      }
-
- */
-
-  /*     if (format === "Portrait") {
-      smallMeasurements = "10 x 15 cm";
-      mediumMeasurements = "30 x 45 cm";
-      largeMeasurements = "60 x 90 cm";
-      smallPrice = "5 kr";
-      mediumPrice = "79 kr";
-      largePrice = "399 kr";
-    } else if (format === "Landscape") {
-      smallMeasurements = "15 x 10 cm";
-      mediumMeasurements = "45 x 30 cm";
-      largeMeasurements = "90 x 60 cm";
-      smallPrice = "5 kr";
-      mediumPrice = "79 kr";
-      largePrice = "399 kr";
-    } else if (format === "Square") {
-      smallMeasurements = "15 x 15 cm";
-      mediumMeasurements = "45 x 45 cm";
-      largeMeasurements = "60 x 60 cm";
-      smallPrice = "10 kr";
-      mediumPrice = "89 kr";
-      largePrice = "299 kr";
-    } else {
-      smallMeasurements = "";
-      mediumMeasurements = "";
-      largeMeasurements = "";
-      smallPrice = "";
-      mediumPrice = "";
-      largePrice = "";
-    } */
 
   return (
     <>
       <section className=" py-1 bg-blueGray-50">
-        <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">
+        <div className="w-full md:w-10/12 lg:8/12 px-4 mx-auto mt-6">
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <article className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
@@ -150,7 +75,7 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
                 Photo Information
               </h6>
               <div className="flex flex-wrap">
-                <article className="w-full lg:w-6/12 px-4">
+                <article className="w-full px-4">
                   <div className="relative w-full mb-3">
                     <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
                       Title
@@ -167,10 +92,10 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
                   </div>
                 </article>
 
-                <article className="w-full lg:w-6/12 px-4">
+                <article className="w-full  px-4">
                   <div className="relative w-full mb-3">
-                    <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                      ({"photo (.jpg)"}) {/* label for what photo to add */}
+                    <label className="block  text-blueGray-600 text-xs font-bold mb-2">
+                      PHOTO (.jpg)
                     </label>
                     <input
                       type="file"
@@ -237,33 +162,19 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
                     </select>
                   </div>
                 </article>
-                {/*  <Formats
-                    size="Small"
-                    meauserments={smallMeasurements}
-                    price={smallPrice}
-                  />
-                  <Formats
-                    size="Medium"
-                    meauserments={mediumMeasurements}
-                    price={mediumPrice}
-                  />
-                  <Formats
-                    size="Large"
-                    meauserments={largeMeasurements}
-                    price={largePrice}
-                  /> */}
               </div>
 
-              <hr className="mt-6 border-b-1 border-blueGray-300" />
-
-              <button
-                className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={props.handleAddNewPhoto}
-              >
-                Upload to Gallery
-              </button>
-              {/*  </form> */}
+              <hr className="my-6 border-b-1 border-blueGray-300" />
+              <div className="flex justify-center">
+                <button
+                  className="btn m-6 inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
+                  type="button"
+                  onClick={handleUploadClick}
+                >
+                  Upload to Gallery
+                </button>
+                {/*  </form> */}
+              </div>
             </div>
           </div>
         </div>

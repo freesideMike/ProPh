@@ -5,6 +5,8 @@ import { AddNewPhoto } from "./AddNewPhoto";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
+
+
 const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 
 interface IAdminProps {
@@ -33,6 +35,7 @@ export const Admin = (props: IAdminProps) => {
   console.log(props.email);
 
   const [showAddNewPhoto, setShowAddNewPhoto] = useState(false);
+  const [showEditPhoto, setShowEditPhoto] = useState(false);
 
   /*   console.log(supabaseUrl + user?.id + props.photos[0].photoId); */
   // if not logged in --> go to loginpage
@@ -60,67 +63,21 @@ export const Admin = (props: IAdminProps) => {
     setShowAddNewPhoto(!showAddNewPhoto);
   };
   const toggleEditPhoto = (photoId: number) => {
-    console.log("edit photo" + photoId);
+    setShowEditPhoto(!showEditPhoto);
   };
-  const doThePrintOut = () => {
-    props.photos.map((photo) => {
-      console.log(photo.userId, user?.id);
-    });
-  };
-  doThePrintOut();
-  /* const handleGetYourOwnPhotos = () => {
-    if (!props.photos || props.photos.length === 0) {
-      return <p>No photos available.</p>;
-    }
-    return props.photos.map((photo) => (
-      <div
-        key={photo.id}
-        className="user-row flex flex-col items-center justify-between cursor-pointer p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
-      >
-        <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
-          <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
-            <img
-              className="avatar w-20 h-20"
-              src={photo.url}
-              alt={photo.title}
-            />
-          </div>
-          <div className="skills flex flex-col">
-            <span className="subtitle text-slate-500">{photo.title}</span>
-          </div>
-        </div>
-        <div className="user-option mx-auto sm:ml-auto sm:mr-0">
-          <div>
-            <input
-            type="checkbox"
-            checked={photo.isActive}
-            onChange={() => props.changeIsActive(photo.id)}
-            />
-            Show
-          </div>
-          <button
-            className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
-            type="button"
-            >
-            Edit
-            </button>
-            </div>
-      </div>
-      ));
-  }; */
+ 
 
   return (
     <>
-     
-        <Header></Header>
-    
+      <Header></Header>
+
       {user == null ? (
         <>
           {" "}
           {/* if not logged in, show login-field */}
           <section className=" py-1 bg-white">
             <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">
-              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg shadow-[#6a11e784] rounded-lg bg-blueGray-100 border-0">
                 <article className="rounded-t bg-white mb-0 px-6 py-6">
                   <div className="">
                     <h6 className="text-blueGray-700 text-xl font-bold">
@@ -151,7 +108,7 @@ export const Admin = (props: IAdminProps) => {
                       </article>
                     </div>
                     <button
-                      className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                      className="bg-[#6911e7] text-white active:bg-[#6911e7] font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={magicLinkLogin}
                     >
@@ -167,7 +124,7 @@ export const Admin = (props: IAdminProps) => {
         <>
           {" "}
           {/* if logged in, show your Gallery-admin */}
-          <div className="flex flex-col items-center justify-center min-h-screen  bg-slate-50">
+          <div className="flex flex-col items-center justify-center min-h-screen pb-40 lg:pb-52 xl:mb-64 bg-slate-50">
             <h1 className="my-10 font-medium text-3xl sm:text-4xl">
               My photos
             </h1>
@@ -183,19 +140,19 @@ export const Admin = (props: IAdminProps) => {
               </button>
             </div>
 
-            <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl flex flex-col py-4">
+            <div className="user-list w-full max-w-lg mx-auto bg-white rounded-xl shadow-xl shadow-[#6a11e784] flex flex-col py-4">
               {props.photos
                 .filter((photo) => user.id === photo.userId)
                 .map((photo) => (
                   <>
                     <div
                       key={photo.photoId}
-                      className="user-row flex flex-col items-center justify-between cursor-pointer  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
+                      className="user-row flex flex-col items-center justify-between  p-4 duration-300 sm:flex-row sm:py-4 sm:px-8 hover:bg-[#f6f8f9]"
                     >
                       <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
                         <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
                           <img
-                            className="avatar w-20 h-20"
+                            className="aspect-square object-cover object-center avatar w-36 md:w-24"
                             src={
                               supabaseUrl +
                               "/storage/v1/object/public/photoGallery/" +
@@ -207,7 +164,7 @@ export const Admin = (props: IAdminProps) => {
                         </div>
 
                         <div className="skills flex flex-col">
-                          <span className="subtitle text-slate-500">
+                          <span className="subtitle text-slate-500 font-mono uppercase s:text-lg  my-4">
                             {photo.title}
                           </span>
                         </div>
@@ -217,12 +174,13 @@ export const Admin = (props: IAdminProps) => {
                         <div>
                           <input
                             type="checkbox"
+                            className=" accent-[#6911e7] "
                             checked={photo.isActive}
                             onChange={() => {
                               props.changeIsActive(photo.id);
                             }}
                           />
-                          Show
+                          <label className="ml-2 text-slate-800">Show</label>
                         </div>
                         <button
                           className="btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-4 py-1.5 rounded text-base font-medium leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
@@ -257,7 +215,8 @@ export const Admin = (props: IAdminProps) => {
                   formatChange={props.formatChange}
                   priceRange={props.priceRange}
                   priceRangeChange={props.priceRangeChange}
-                  handleSubmit={props.handleSubmit}
+                    handleSubmit={props.handleSubmit}
+                    toggleShowAddNewPhoto={toggleShowAddNewPhoto}
                   handleAddNewPhoto={props.handleAddNewPhoto}
                   supabase={props.supabase}
                 />

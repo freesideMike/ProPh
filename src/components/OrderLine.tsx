@@ -24,7 +24,7 @@ export const OrderLine = (props: IOrderLineProps) => {
       {/* container */}
       <div className=" w-full flex items-center text-center flex-col  sm:text-left">
         {/* top container */}
-        <div className="  w-full flex items-center text-center flex-col sm:flex-row sm:text-left">
+        <div className="  w-full flex items-center text-center flex-row sm:text-left">
           {/* image contanier */}
           <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
             {
@@ -44,7 +44,7 @@ export const OrderLine = (props: IOrderLineProps) => {
           {/* text container */}
           <div className=" w-full flex flex-col">
             {/* title */}
-            <span className="text-2xl text-left mx-4 font-mono text-slate-500">
+            <span className="text-2xl uppercase text-left mx-4 font-mono text-slate-500">
               {currentPhoto.title}
             </span>
             {/* size */}

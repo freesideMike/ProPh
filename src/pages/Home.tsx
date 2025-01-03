@@ -13,9 +13,9 @@ export const Home = (props: IHomeProps) => {
   const activePage = "home";
   return (
     <>
-      <section className=" bg-slate-50">
+      <section className="lg:flex lg:flex-row ">
         <Header></Header>
-        <article className="flex flex-wrap w-90% ">
+        <article className="flex flex-wrap mt-2">
           {props.photos.map(
             (photo) =>
               photo.isActive && <PhotoCard key={photo.id} photo={photo} />

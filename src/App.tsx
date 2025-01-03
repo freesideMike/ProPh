@@ -32,7 +32,8 @@ const App = () => {
   const user = useUser();
   useEffect(() => {
     getAllPhotos();
-    localStorage.getItem("cart") && setCart(JSON.parse(localStorage.getItem("cart")!));
+    localStorage.getItem("cart") &&
+      setCart(JSON.parse(localStorage.getItem("cart")!));
   }, []);
 
   console.log(photos);
@@ -55,16 +56,13 @@ const App = () => {
 
   // get photos from database into photos-state
   const getAllPhotos = async () => {
-    const { data, error } = await supabase.from("PhotoGallery").select();
+    const { data, error } = await supabase.from("PhotoGallery").select().order('created_at', { ascending: false });
     if (error) {
       console.error("Error fetching photos:", error);
     } else {
       if (data) {
         console.log("Photos fetched:", data);
         setPhotos(data);
-
-        /*         getPhotosFromDb(data[0].name);
-         */
       }
     }
   };
@@ -199,14 +197,13 @@ const App = () => {
         price,
       };
       setCart([...cart, newItem]);
-      saveCartToLocalStorage([...cart, newItem]); }
+      saveCartToLocalStorage([...cart, newItem]);
+    }
   };
 
-
   const saveCartToLocalStorage = (cart: ICart[]) => {
-  
     localStorage.setItem("cart", JSON.stringify(cart));
-  }
+  };
   const addCount = (photoId: number, size: string) => {
     const updatedCart = cart.map((item) =>
       item.photoId === photoId && item.size === size
@@ -217,8 +214,13 @@ const App = () => {
   };
 
   const subtractCount = (photoId: number, size: string) => {
-    if (cart.find((item) => item.photoId === photoId && item.size === size)?.count === 1) {
-      const updatedCart = cart.filter((item) => item.photoId !== photoId || item.size !== size);
+    if (
+      cart.find((item) => item.photoId === photoId && item.size === size)
+        ?.count === 1
+    ) {
+      const updatedCart = cart.filter(
+        (item) => item.photoId !== photoId || item.size !== size
+      );
       setCart(updatedCart);
       saveCartToLocalStorage(updatedCart);
       return;
@@ -234,6 +236,7 @@ const App = () => {
   };
 
   const createOrder = async () => {
+    console.log(cart);
     const newOrder = cart.map((item) => ({
       photoId: item.photoId,
       photoName: item.photoName,
@@ -253,70 +256,20 @@ const App = () => {
       if (data) {
         console.log("Order created:", data);
         setOrder(data);
+        setCart([]);
+        localStorage.removeItem("cart");
       }
     }
   };
-  /* 
-  const addOrderToDb const { data, error } = await supabase
-      .from("Order")
-      .insert([
-        {
-          photoId: photoId,
-          photoName: title,
-          count: 1,
-          size: size,
-          price: price,
-        },
-      ])
-      .select();
-
-    if (error) {
-      console.log("Error adding to cart:", error);
-    }
-    if (data) {
-      setOrder((prevOrder) => [...prevOrder, data[0]]);
-    }
- */
-
-  /*  const getYourOwnPhotos = async () => {
-    if (!user) {
-      console.error("User is not logged in");
-      return <h1>User is not logged in</h1>;
-    } */
-  /*   const  { data, error }  = await supabase
-        .storage
-        .from("photos")
-        .list(user.id + "/", {
-          limit: 100,
-          offset: 0,
-          sortBy: { column: "changedDate", order: "asc" },
-        }); */
-  /*     if (data !== null) {
-        setPhotos(data.map(file => ({
-          id: Date.now(),
-          title: file.name,
-          url: "", // Provide a default or fetch the URL if available
-          isActive: true, // Provide a default value
-          versions:
-            getSizePrice(format, priceRange),
-          times_opened: 0,
-          times_ordered: 0,
-          created_at: Date.now(),
-          updated_at: Date.now(),
-        })));
-      } else {
-        console.log(error);
-      } */
-  /*  }; */
 
   const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
   // UPDATES THE DATABASE
-  const updateIsActiveInPhotoDb = async (id: number, isActive: boolean) => {
+  const updateIsActiveInPhotosDb = async (id: number, isActive: boolean) => {
     const { data, error } = await supabase
-      .from("Photos")
+      .from("PhotoGallery")
       .update({ isActive })
       .eq("id", id);
     if (error) {
@@ -326,150 +279,6 @@ const App = () => {
     }
   };
 
-  /* const getSizePrice = (format: string, priceRange: string) => {
-      /* Portrait 
-      if (format === "Portrait" && priceRange === "Low") {
-        return [
-          {
-            size: "10 x 15",
-            price: 5,
-          },
-          {
-            size: "30 x 45",
-            price: 79,
-          },
-          {
-            size: "60 x 90",
-            price: 399,
-          },
-        ];
-      } else if (format === "Portrait" && priceRange === "Medium") {
-        return [
-          {
-            size: "10 x 15",
-            price: 10,
-          },
-          {
-            size: "30 x 45",
-            price: 149,
-          },
-          {
-            size: "60 x 90",
-            price: 599,
-          },
-        ];
-      } else if (format === "Portrait" && priceRange === "High") {
-        return [
-          {
-            size: "10 x 15",
-            price: 25,
-          },
-          {
-            size: "30 x 45",
-            price: 299,
-          },
-          {
-            size: "60 x 90",
-            price: 999,
-          },
-        ];
-      } else if (format === "Landscape" && priceRange === "Low") {
-        /* Landscape 
-        return [
-          {
-            size: "15 x 10",
-            price: 5,
-          },
-          {
-            size: "45 x 30",
-            price: 79,
-          },
-          {
-            size: "90 x 60",
-            price: 399,
-          },
-        ];
-      } else if (format === "Landscape" && priceRange === "Medium") {
-        return [
-          {
-            size: "15 x 10",
-            price: 10,
-          },
-          {
-            size: "45 x 30",
-            price: 149,
-          },
-          {
-            size: "90 x 60",
-            price: 599,
-          },
-        ];
-      } else if (format === "Landscape" && priceRange === "High") {
-        return [
-          {
-            size: "15 x 10",
-            price: 25,
-          },
-          {
-            size: "45 x 30",
-            price: 299,
-          },
-          {
-            size: "90 x 60",
-            price: 999,
-          },
-        ];
-      } else if (format === "Square" && priceRange === "Low") {
-        /* Square 
-        return [
-          {
-            size: "15 x 15",
-            price: 5,
-          },
-          {
-            size: "40 x 40",
-            price: 79,
-          },
-          {
-            size: "60 x 60",
-            price: 399,
-          },
-        ];
-      } else if (format === "Square" && priceRange === "Medium") {
-        return [
-          {
-            size: "15 x 15",
-            price: 10,
-          },
-          {
-            size: "40 x 40",
-            price: 149,
-          },
-          {
-            size: "60 x 60",
-            price: 599,
-          },
-        ];
-      } else if (format === "Square" && priceRange === "High") {
-        return [
-          {
-            size: "15 x 15",
-            price: 25,
-          },
-          {
-            size: "40 x 40",
-            price: 299,
-          },
-          {
-            size: "60 x 60",
-            price: 999,
-          },
-        ];
-      }
-    }; */
-
-  // UPDATES THE STATE
-  //changes if the isActive (if the photo shows up in gallery or not)
   const changeIsActive = (id: number) => {
     const newPhotos = photos.map((photo) =>
       photo.id === id ? { ...photo, isActive: !photo.isActive } : photo
@@ -478,7 +287,7 @@ const App = () => {
     setPhotos(newPhotos);
     const updatedPhoto = newPhotos.find((photo) => photo.id === id);
     if (updatedPhoto) {
-      updateIsActiveInPhotoDb(id, updatedPhoto.isActive);
+      updateIsActiveInPhotosDb(id, updatedPhoto.isActive);
     }
   };
 
