@@ -223,7 +223,7 @@ export const Admin = (props: IAdminProps) => {
 
             <a
               className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded-full border-2 border-[#6911e7] hover:bg-slate-300 hover:text-white font-medium hover:shadow-md hover:shadow-[#6a11e784] transition duration-300 ease-i "
-              href="#/"
+              href="/"
               >
               Back to Gallery
             </a>

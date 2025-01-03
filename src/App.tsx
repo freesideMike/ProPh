@@ -34,11 +34,8 @@ const App = () => {
 
   useEffect(() => {
     getAllPhotos();
-  }, [photos]);
+  }, []);
 
-  console.log(photos);
-  console.log(cart);
-  console.log(cart.length);
 
   const titleChange = (value: string) => {
     setTitle(value);
