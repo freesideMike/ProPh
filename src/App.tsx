@@ -25,16 +25,16 @@ const App = () => {
   const [order, setOrder] = useState<IOrder[]>([]);
   /* temporary states for adding new photo */
   const [title, setTitle] = useState("");
+  /* the "url" is actually a file-object */
   const [url, setUrl] = useState<File>();
   const [format, setFormat] = useState("portrait");
   const [priceRange, setPriceRange] = useState("Low");
   const [cart, setCart] = useState<ICart[]>([]);
   const user = useUser();
+
   useEffect(() => {
     getAllPhotos();
-    localStorage.getItem("cart") &&
-      setCart(JSON.parse(localStorage.getItem("cart")!));
-  }, []);
+  }, [photos]);
 
   console.log(photos);
   console.log(cart);
@@ -56,7 +56,7 @@ const App = () => {
 
   // get photos from database into photos-state
   const getAllPhotos = async () => {
-    const { data, error } = await supabase.from("PhotoGallery").select().order('created_at', { ascending: false });
+    const { data, error } = await supabase.from("PhotoGallery").select();
     if (error) {
       console.error("Error fetching photos:", error);
     } else {
@@ -65,6 +65,8 @@ const App = () => {
         setPhotos(data);
       }
     }
+    localStorage.getItem("cart") &&
+      setCart(JSON.parse(localStorage.getItem("cart")!));
   };
 
   const getPhotosFromDb = async (photoId: string) => {
@@ -108,10 +110,12 @@ const App = () => {
   };
 
   const handleAddNewPhoto = async () => {
-    uploadImageToBucket();
-  };
-
-  const uploadImageToBucket = async () => {
+    console.log(title);
+    console.log(url);
+    console.log(format);
+    console.log(priceRange);
+    console.log(user?.id);
+    console.log(uuidv4());
     if (!url) {
       console.error("No file selected");
       return;

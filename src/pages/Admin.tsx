@@ -5,8 +5,6 @@ import { AddNewPhoto } from "./AddNewPhoto";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
-
-
 const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 
 interface IAdminProps {
@@ -65,7 +63,6 @@ export const Admin = (props: IAdminProps) => {
   const toggleEditPhoto = (photoId: number) => {
     setShowEditPhoto(!showEditPhoto);
   };
- 
 
   return (
     <>
@@ -132,7 +129,7 @@ export const Admin = (props: IAdminProps) => {
               <h1 className="p-6">{user.email}</h1>
 
               <button
-                className="bg-gray-300 text-[#6911e7] active:bg-gray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md border-2 border-white focus:outline-none mr-1 ease-linear transition-all duration-150"
+                className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded-full border-2 border-[#6911e7] hover:bg-slate-300 hover:text-white font-medium hover:shadow-md hover:shadow-[#6a11e784] transition duration-300 ease-in"
                 type="button"
                 onClick={logOut}
               >
@@ -152,7 +149,7 @@ export const Admin = (props: IAdminProps) => {
                       <div className="user flex items-center text-center flex-col sm:flex-row sm:text-left">
                         <div className="avatar-content mb-2.5 sm:mb-0 sm:mr-2.5">
                           <img
-                            className="aspect-square object-cover object-center avatar w-36 md:w-24"
+                            className="aspect-square object-cover object-center avatar w-36 sm:w-24"
                             src={
                               supabaseUrl +
                               "/storage/v1/object/public/photoGallery/" +
@@ -215,19 +212,22 @@ export const Admin = (props: IAdminProps) => {
                   formatChange={props.formatChange}
                   priceRange={props.priceRange}
                   priceRangeChange={props.priceRangeChange}
-                    handleSubmit={props.handleSubmit}
-                    toggleShowAddNewPhoto={toggleShowAddNewPhoto}
+                  handleSubmit={props.handleSubmit}
+                  toggleShowAddNewPhoto={toggleShowAddNewPhoto}
                   handleAddNewPhoto={props.handleAddNewPhoto}
                   supabase={props.supabase}
                 />
               )}
-            </div>
+              </div>
+              <div className="mt-6">
+
             <a
-              className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded hover:border-2 hover:border-white  font-medium duration-300"
+              className="show-more block  mx-auto py-2.5 my-4 px-4 text-center no-underline rounded-full border-2 border-[#6911e7] hover:bg-slate-300 hover:text-white font-medium hover:shadow-md hover:shadow-[#6a11e784] transition duration-300 ease-i "
               href="#/"
-            >
+              >
               Back to Gallery
             </a>
+              </div>
           </div>
         </>
       )}
