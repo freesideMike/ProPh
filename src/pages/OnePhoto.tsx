@@ -59,7 +59,7 @@ export const OnePhoto = (props: IOnePhotoProps) => {
       <div className="flex flex-col items-center justify-center min-h-screen ">
         {/* -------- card -------- */}
 
-        <div className="user-list w-full md:w-10/12 xl:w-8/12 mx-auto bg-white rounded-xl shadow-xl flex flex-col">
+        <div className="user-list w-full md:w-8/12 xl:w-6/12 mx-auto bg-white rounded-xl shadow-xl flex flex-col">
           {/* -------- image -------- */}
           <section className="flex bg-slate-200  justify-center align-middle w-full">
             <img

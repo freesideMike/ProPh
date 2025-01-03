@@ -17,7 +17,7 @@ export const Header = () => {
             <Logo></Logo>
           </section>
 
-          <h1 className="hidden md:inline ml-10 m-auto text-xl font-bold lg:text-4xl">
+          <h1 className="hidden md:mb-12 md:inline ml-10 m-auto text-xl font-bold lg:text-4xl">
             ProPhotography
           </h1>
 
