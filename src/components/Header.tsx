@@ -17,21 +17,23 @@ export const Header = () => {
             <Logo></Logo>
           </section>
 
-            <h1 className="hidden md:inline ml-10 m-auto text-xl font-bold lg:text-4xl">ProPhotography</h1>
+          <h1 className="hidden md:inline ml-10 m-auto text-xl font-bold lg:text-4xl">
+            ProPhotography
+          </h1>
 
           <ul className="flex flex-row lg:flex-col  lg:mr-60 justify-end w-full object-center">
-            <li>
+            <li className="my-auto">
               <NavLink
                 to={"/admin"}
-                className={"mx-2 lg:mx-5 font-light lg:text-2xl "}
+                className={"mx-2 my-auto lg:mx-5 font-light lg:text-2xl "}
               >
                 {user ? "Admin" : "Login"}
               </NavLink>
             </li>
-            <li>
+            <li className="my-auto">
               <NavLink
                 to={"/"}
-                className={"mx-2 lg:mx-5 font-light lg:text-2xl"}
+                className={"mx-2 my-auto lg:mx-5 font-light lg:text-2xl"}
               >
                 Gallery
               </NavLink>
@@ -44,10 +46,10 @@ export const Header = () => {
                 About
               </NavLink>
             </li> */}
-            <li>
+            <li className="my-auto mr-4">
               <NavLink
                 to={"/cart"}
-                className={"mx-2 lg:mx-5 font-light lg:text-2xl"}
+                className={"mx-2 my-auto lg:mx-5 font-light lg:text-2xl"}
               >
                 Cart
               </NavLink>

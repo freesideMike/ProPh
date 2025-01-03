@@ -14,7 +14,7 @@ export const PhotoCard = (props: IPhotoCardProps) => {
   return (
     <>
       <article
-        className="w-6/12 md:w-4/12 lg:3/12 h-1/3 p-2 bg-white border-white border-2 md:border-4 lg:border-6 xl:border-8  cursor-pointer"
+        className="w-6/12 md:w-4/12 lg:3/12  p-2 bg-white border-white border-2 md:border-4 lg:border-6 xl:border-8"
         style={{ transform: `rotate(${random}deg) `, transition: 'transform 2s' }}
       
         onClick={() => {
