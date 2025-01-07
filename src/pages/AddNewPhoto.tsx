@@ -1,10 +1,5 @@
-import { useUser } from "@supabase/auth-helpers-react";
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-
 interface IAddNewPhotoProps {
   changeIsActive: (id: number) => void;
-  /*  uploadImage: (file: File) => void; */
   title: string;
   titleChange: (value: string) => void;
   url: File | undefined;
@@ -20,8 +15,6 @@ interface IAddNewPhotoProps {
 }
 
 export const AddNewPhoto = (props: IAddNewPhotoProps) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const user = useUser();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("testar om handleTitleChange funkar");
@@ -36,12 +29,6 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
   };
   const handlePriceRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     props.priceRangeChange(String(e.target.value));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedFile(e.target.files[0]); // Set the selected file
-    }
   };
 
   const handleUploadClick = async () => {
@@ -63,7 +50,6 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
             </article>
 
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-              {/*  <form onSubmit={(e) => handleSubmit(e)}> */}
               <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                 Photo Information
               </h6>
@@ -166,7 +152,7 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
                 >
                   Upload to Gallery
                 </button>
-                {/*  </form> */}
+               
               </div>
             </div>
           </div>

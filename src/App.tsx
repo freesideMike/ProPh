@@ -81,7 +81,8 @@ const App = () => {
     if (error) {
       console.error("Error uploading file:", error);
       return;
-    } else {
+    }
+    if (data){
       addNewPhotoInPhotoDb(fileName);
       return;
     }

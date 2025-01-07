@@ -8,13 +8,12 @@ import { NotFound } from "./pages/NotFound";
 import { Admin } from "./pages/Admin";
 import { IOrder } from "./models/IOrder";
 import { ICart } from "./models/ICart";
+
 interface IRouterProps {
   photos: IPhoto[];
   email: string;
   changeIsActive: (id: number) => void;
   handleEmailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
-
-  /*  getYourOwnPhotos: () => void; */
   title: string;
   titleChange: (value: string) => void;
   url: File | undefined;
@@ -52,7 +51,16 @@ const Router = (props: IRouterProps) =>
         },
         {
           path: "/cart",
-          element: <Cart order={props.order} photos={props.photos} cart={props.cart} createOrder={props.createOrder} addCount={props.addCount} subtractCount={props.subtractCount} />,
+          element: (
+            <Cart
+              order={props.order}
+              photos={props.photos}
+              cart={props.cart}
+              createOrder={props.createOrder}
+              addCount={props.addCount}
+              subtractCount={props.subtractCount}
+            />
+          ),
         },
         {
           path: "/login",

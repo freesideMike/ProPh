@@ -55,8 +55,11 @@ export const Admin = (props: IAdminProps) => {
   const toggleShowAddNewPhoto = () => {
     setShowAddNewPhoto(!showAddNewPhoto);
   };
+
+  /* this function is not used yet/not working correctly */
   const toggleEditPhoto = (photoId: number) => {
     setShowEditPhoto(!showEditPhoto);
+    console.log("photoId: " + photoId);
   };
 
   return (

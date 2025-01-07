@@ -38,3 +38,9 @@ Login/Admin
 (admin page shows your own photos and you are able to handle them or add new photos to your portfolio)
 
 Cart
+
+## TechStack
+
+Frontend: React
+Styling: Tailwind
+Backend: Supabase
