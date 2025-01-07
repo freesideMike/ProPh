@@ -1,10 +1,8 @@
 import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
-/* import { createClient } from "@supabase/supabase-js"; */
 import router from "./Router";
 import { IPhoto } from "./models/IPhoto";
-
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@supabase/auth-helpers-react";
 import { createClient } from "@supabase/supabase-js";
@@ -13,15 +11,12 @@ import { ICart } from "./models/ICart";
 
 export const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL!;
 const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY!;
-/* const supabaseAPIKey: string = import.meta.env.VITE_SUPABASE_API_KEY!; */
 
 const supabase = createClient(supabaseUrl, supabaseKey);
-/* const supabaseDb = createClient(supabaseUrl, supabaseAPIKey); */
 
 const App = () => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
-  const [images, setImages] = useState<string[]>([]);
-  const [email, setEmail] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
   const [order, setOrder] = useState<IOrder[]>([]);
   /* temporary states for adding new photo */
   const [title, setTitle] = useState("");
@@ -35,7 +30,6 @@ const App = () => {
   useEffect(() => {
     getAllPhotos();
   }, []);
-
 
   const titleChange = (value: string) => {
     setTitle(value);
@@ -66,7 +60,7 @@ const App = () => {
       setCart(JSON.parse(localStorage.getItem("cart")!));
   };
 
-  const getPhotosFromDb = async (photoId: string) => {
+/*   const getPhotosFromDb = async (photoId: string) => {
     const currentPhoto = photos.find((photo) => photo.photoId === photoId);
     const { data, error } = await supabase
       .from("photoGallery")
@@ -90,29 +84,17 @@ const App = () => {
         console.log("Photos fetched:", data);
       }
     }
-  };
+  }; */
 
   const handleSubmit = async () => {
     if (!url) {
       console.error("No file selected");
-      return;
-      /*  }
-       const imageUrl = await uploadImage();
-   
-       if (imageUrl) {
-         await addNewPhotoInPhotoDb(title, priceRange, priceRange, imageUrl.fullPath, format, true);
-       } */
-      /*   addNewPhoto(); */
+      return
     }
   };
 
   const handleAddNewPhoto = async () => {
-    console.log(title);
-    console.log(url);
-    console.log(format);
-    console.log(priceRange);
-    console.log(user?.id);
-    console.log(uuidv4());
+
     if (!url) {
       console.error("No file selected");
       return;
@@ -160,18 +142,6 @@ const App = () => {
     }
   };
 
-  /*  const addToCart = async (photoId: number, price: number, size: string) => {
-    // Check if the photo is already in the cart
-    const existingPhoto = cart.find((orderline) => orderline.photoId === photoId);
-    if (existingPhoto) {
-      const newCartItem: ICart = existingPhoto.map(line)  {
-    
-        }
-        return photo;
-      };
-      setCart(updatedCart);
-     
-     }; */
   const addToCart = (photoId: number, price: number, size: string) => {
     // Check if the item already exists in the cart
     const existingItem = cart.find(
@@ -192,7 +162,7 @@ const App = () => {
       const newItem: ICart = {
         id: Date.now(),
         photoId,
-        photoName: title, // Replace with actual photo name
+        photoName: title,
         count: 1,
         size,
         price,
