@@ -22,7 +22,6 @@ interface IAddNewPhotoProps {
 export const AddNewPhoto = (props: IAddNewPhotoProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const user = useUser();
- 
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("testar om handleTitleChange funkar");
@@ -47,14 +46,8 @@ export const AddNewPhoto = (props: IAddNewPhotoProps) => {
 
   const handleUploadClick = async () => {
     props.handleAddNewPhoto();
-    props.toggleShowAddNewPhoto()
-   /*  alert(`A new photo added to gallery`); */
-
-    };
-    
-  
-
-
+    props.toggleShowAddNewPhoto();
+  };
 
   return (
     <>

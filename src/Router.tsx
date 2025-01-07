@@ -11,7 +11,6 @@ import { ICart } from "./models/ICart";
 interface IRouterProps {
   photos: IPhoto[];
   email: string;
-  addNewPhoto: () => void;
   changeIsActive: (id: number) => void;
   handleEmailInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
 

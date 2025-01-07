@@ -28,27 +28,22 @@ interface IAdminProps {
 
 export const Admin = (props: IAdminProps) => {
   const user = useUser();
-  /*   console.log(user); */
   const supabase = useSupabaseClient();
   console.log(props.email);
-
   const [showAddNewPhoto, setShowAddNewPhoto] = useState(false);
   const [showEditPhoto, setShowEditPhoto] = useState(false);
-
-  /*   console.log(supabaseUrl + user?.id + props.photos[0].photoId); */
-  // if not logged in --> go to loginpage
-  //ändra detta state till ett props från photo-statet.
+ 
   const magicLinkLogin = async () => {
     const { error } = await supabase.auth.signInWithOtp({ email: props.email });
     if (error) {
       console.error(
         "Error logging in:",
         error.message
-      ); /* make this into a nice message on the screen, or just an alert */
+      );
     } else {
       console.log(
         "Magic link has been sent to your email"
-      ); /* make this into a nice message on the screen, or just an alert */
+      );
     }
   };
 

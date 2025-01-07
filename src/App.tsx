@@ -16,7 +16,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const App = () => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
-    const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [order, setOrder] = useState<IOrder[]>([]);
   /* temporary states for adding new photo */
   const [title, setTitle] = useState("");
@@ -60,41 +60,14 @@ const App = () => {
       setCart(JSON.parse(localStorage.getItem("cart")!));
   };
 
-/*   const getPhotosFromDb = async (photoId: string) => {
-    const currentPhoto = photos.find((photo) => photo.photoId === photoId);
-    const { data, error } = await supabase
-      .from("photoGallery")
-      .insert([
-        {
-          userId: user?.id,
-          photoId: photoId,
-          photoName: currentPhoto?.title,
-          format: format,
-          priceRange: priceRange,
-          isActive: true,
-        },
-      ])
-      .select();
-    console.log(currentPhoto?.title);
-    if (error) {
-      console.error("Error fetching photos:", error);
-    } else {
-      if (data) {
-        setPhotos(data);
-        console.log("Photos fetched:", data);
-      }
-    }
-  }; */
-
   const handleSubmit = async () => {
     if (!url) {
       console.error("No file selected");
-      return
+      return;
     }
   };
 
   const handleAddNewPhoto = async () => {
-
     if (!url) {
       console.error("No file selected");
       return;
@@ -110,14 +83,12 @@ const App = () => {
       return;
     } else {
       addNewPhotoInPhotoDb(fileName);
-      console.log(data);
       return;
     }
   };
 
   //Adds new photo to database
   const addNewPhotoInPhotoDb = async (photoId: string) => {
-    console.log(photoId);
     const { data, error } = await supabase
       .from("PhotoGallery")
       .insert([
@@ -207,7 +178,6 @@ const App = () => {
   };
 
   const createOrder = async () => {
-    console.log(cart);
     const newOrder = cart.map((item) => ({
       photoId: item.photoId,
       photoName: item.photoName,
@@ -262,18 +232,12 @@ const App = () => {
     }
   };
 
-  const addNewPhoto = () => {
-    // ta bort hela denna och alla props som tillhör i alla filer
-    console.log("New photo added to State");
-  };
-
   return (
     <>
       <RouterProvider
         router={router({
           photos,
           changeIsActive,
-          addNewPhoto,
           email,
           handleEmailInput,
           title,

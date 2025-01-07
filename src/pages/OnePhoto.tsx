@@ -72,56 +72,7 @@ export const OnePhoto = (props: IOnePhotoProps) => {
           </section>
           {/* -------- sizebuttons ------- */}
           <div className="flex flex-row justify-start my-4 mb-12 w-full">
-            <div className=" ">
-              {/* skapa en input där man har bildens mått att välja på men som inte ser ut som en inputruta, bara en skrolllista */}
-              {/*    <select
-                value={activeSize ? activeSize : "choose your size"}
-                onChange={handleSizeChange}
-                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              >
-                <option value="" disabled>
-                  Select a pricerange
-                </option> */}
-
-              {/*  {selectedPhoto.versions.map((version, i) => (
-                  <option key={i} value={version.toString()}>
-                    {version.size} cm
-                  </option>
-                ))} */}
-              {/*  </select> */}
-              {/*    <h4 className="ml-4 lg:text-lg  xl:text-2xl">
-                choose your size
-                {/* {console.log(selectedPhoto.versions)} 
-              </h4> */}
-              {/*      {selectedPhoto.versions? (
-                  <span>{selectedPhoto.prices[activeSiize]} kr</span>
-                ) : (
-                  <span>Price not available</span>
-                )} */}
-
-              {/*       <button
-                className="toggle-theme mx-2 btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-5 py-1 rounded-full text-base font-normal leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
-                type="button"
-              >
-                Small
-              </button>
-            </div>{" "}
-            <div className="">
-              <button
-                className="toggle-theme  mx-2 btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-5 py-1 rounded-full text-base font-normal leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
-                type="button"
-              >
-                Medium
-              </button>
-            </div>
-            <div className="">
-              <button
-                className="toggle-theme mx-2 btn inline-block select-none no-underline align-middle cursor-pointer whitespace-nowrap px-5 py-1 rounded-full text-base font-normal leading-6 tracking-tight text-white text-center border-0 bg-[#6911e7] hover:bg-[#590acb] duration-300"
-                type="button"
-              >
-                Large
-              </button> */}
-            </div>
+            
           </div>
           {/* ------ imagetitle ------- */}
           <section className="text-2xl font-mono border-y-2">
