@@ -2,9 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
 import { useUser } from "@supabase/auth-helpers-react";
 
-interface IHeaderProps {
-activePage: string;
-}
+
 
 export const Header = () => {
   const user = useUser();
