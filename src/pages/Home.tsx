@@ -10,7 +10,6 @@ interface IHomeProps {
 
 export const Home = (props: IHomeProps) => {
   
-  const activePage = "home";
   return (
     <>
       <section className="lg:flex lg:flex-row ">
